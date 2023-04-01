@@ -5,7 +5,7 @@ export class App extends PIXI.Application {
     private girl: Girl;
 
     // Girl is able to move inside this rectangle
-    private moveArea: PIXI.Rectangle = new PIXI.Rectangle(40, 125, 800 - 40 - 40, 600 - 125 - 25);
+    private moveArea: PIXI.Rectangle = new PIXI.Rectangle(0, 0, 900, 500);
 
     // Where Girl is going to
     private targetPoint: PIXI.Graphics = new Star();
@@ -15,7 +15,7 @@ export class App extends PIXI.Application {
         super({
             width: 800,
             height: 600,
-            backgroundColor: 0xffffff,
+            backgroundColor: 0x000000,
             autoStart: true,
             sharedTicker: true,
             sharedLoader: true,
@@ -23,8 +23,8 @@ export class App extends PIXI.Application {
 
         this.girl = new Girl();
 
-        this.girl.x = 150.0;
-        this.girl.y = 250.0;
+        this.girl.x = 200.0;
+        this.girl.y = 200.0;
 
         this.stage.addChild(this.girl);
 
