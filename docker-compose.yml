@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  node:
+    container_name: "pixi"
+    image: "node:16.15.1-buster"
+    working_dir: '/var/www/html'
+    network_mode: 'host'
+    volumes:
+      - ./:/var/www/html/
+    stdin_open: true
