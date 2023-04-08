@@ -13703,51 +13703,67 @@ var dragonBones;
             }
             return null;
         };
+				// WIP
         ObjectDataParser.prototype.parseTextureAtlasData = function (rawData, textureAtlasData, scale) {
-            if (scale === void 0) { scale = 1.0; }
-            console.assert(rawData !== undefined);
-            if (rawData === null) {
-                if (this._rawTextureAtlases === null || this._rawTextureAtlases.length === 0) {
-                    return false;
-                }
-                var rawTextureAtlas = this._rawTextureAtlases[this._rawTextureAtlasIndex++];
-                this.parseTextureAtlasData(rawTextureAtlas, textureAtlasData, scale);
-                if (this._rawTextureAtlasIndex >= this._rawTextureAtlases.length) {
-                    this._rawTextureAtlasIndex = 0;
-                    this._rawTextureAtlases = null;
-                }
-                return true;
-            }
-            // Texture format.
-            textureAtlasData.width = ObjectDataParser._getNumber(rawData, dragonBones.DataParser.WIDTH, 0);
-            textureAtlasData.height = ObjectDataParser._getNumber(rawData, dragonBones.DataParser.HEIGHT, 0);
-            textureAtlasData.scale = scale === 1.0 ? (1.0 / ObjectDataParser._getNumber(rawData, dragonBones.DataParser.SCALE, 1.0)) : scale;
-            textureAtlasData.name = ObjectDataParser._getString(rawData, dragonBones.DataParser.NAME, "");
-            textureAtlasData.imagePath = ObjectDataParser._getString(rawData, dragonBones.DataParser.IMAGE_PATH, "");
-            if (dragonBones.DataParser.SUB_TEXTURE in rawData) {
-                var rawTextures = rawData[dragonBones.DataParser.SUB_TEXTURE];
-                for (var i = 0, l = rawTextures.length; i < l; ++i) {
-                    var rawTexture = rawTextures[i];
-                    var frameWidth = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.FRAME_WIDTH, -1.0);
-                    var frameHeight = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.FRAME_HEIGHT, -1.0);
-                    var textureData = textureAtlasData.createTexture();
-                    textureData.rotated = ObjectDataParser._getBoolean(rawTexture, dragonBones.DataParser.ROTATED, false);
-                    textureData.name = ObjectDataParser._getString(rawTexture, dragonBones.DataParser.NAME, "");
-                    textureData.region.x = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.X, 0.0);
-                    textureData.region.y = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.Y, 0.0);
-                    textureData.region.width = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.WIDTH, 0.0);
-                    textureData.region.height = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.HEIGHT, 0.0);
-                    if (frameWidth > 0.0 && frameHeight > 0.0) {
-                        textureData.frame = dragonBones.TextureData.createRectangle();
-                        textureData.frame.x = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.FRAME_X, 0.0);
-                        textureData.frame.y = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.FRAME_Y, 0.0);
-                        textureData.frame.width = frameWidth;
-                        textureData.frame.height = frameHeight;
-                    }
-                    textureAtlasData.addTexture(textureData);
-                }
-            }
-            return true;
+						if (scale === void 0) {
+							scale = 1.0;
+						}
+
+						if (rawData === null) {
+							if (this._rawTextureAtlases === null || this._rawTextureAtlases.length === 0) {
+									return false;
+							}
+							var rawTextureAtlas = this._rawTextureAtlases[this._rawTextureAtlasIndex++];
+							this.parseTextureAtlasData(rawTextureAtlas, textureAtlasData, scale);
+
+							if (this._rawTextureAtlasIndex >= this._rawTextureAtlases.length) {
+									this._rawTextureAtlasIndex = 0;
+									this._rawTextureAtlases = null;
+							}
+
+							return true;
+						}
+
+
+						/*	We have a texture format
+
+					rawData: Object {
+							name: "Girl", imagePath: "Girl_tex.png
+							SubTexture: Array(7) [ {…}, {…}, {…}, … ]
+							0: Object { width: 479, y: 621, x: 1, … }
+							height: 400
+							name: "scarf.png"
+							width: 479
+							x: 1
+							y: 621
+					*/
+						// console.log({rawData});
+						textureAtlasData.width = ObjectDataParser._getNumber(rawData, dragonBones.DataParser.WIDTH, 0);
+						textureAtlasData.height = ObjectDataParser._getNumber(rawData, dragonBones.DataParser.HEIGHT, 0);
+						textureAtlasData.scale = scale === 1.0 ? (1.0 / ObjectDataParser._getNumber(rawData, dragonBones.DataParser.SCALE, 1.0)) : scale;
+						textureAtlasData.name = ObjectDataParser._getString(rawData, dragonBones.DataParser.NAME, "");
+
+						// "textureAtlasData.imagePath" is not used for rendering!
+						// textureAtlasData.imagePath = ObjectDataParser._getString(rawData, dragonBones.DataParser.IMAGE_PATH, "");
+
+						if (dragonBones.DataParser.SUB_TEXTURE in rawData) {
+							var rawTextures = rawData[dragonBones.DataParser.SUB_TEXTURE];
+
+							for (var i = 0, l = rawTextures.length; i < l; ++i) {
+								var
+									rawTexture = rawTextures[i],
+									textureData = textureAtlasData.createTexture();
+									textureData.rotated = ObjectDataParser._getBoolean(rawTexture, dragonBones.DataParser.ROTATED, false);
+									textureData.name = ObjectDataParser._getString(rawTexture, dragonBones.DataParser.NAME, "");
+									textureData.region.x = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.X, 0.0);
+									textureData.region.y = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.Y, 0.0);
+									textureData.region.width = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.WIDTH, 0.0);
+									textureData.region.height = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.HEIGHT, 0.0);
+
+									textureAtlasData.addTexture(textureData);
+							}
+						}
+						return true;
         };
         /**
          * - Deprecated, please refer to {@link dragonBones.BaseFactory#parseDragonBonesData()}.
@@ -14518,13 +14534,20 @@ var dragonBones;
          * @language zh_CN
          */
         BaseFactory.prototype.parseTextureAtlasData = function (rawData, textureAtlas, name, scale) {
-            if (name === void 0) { name = null; }
-            if (scale === void 0) { scale = 1.0; }
-            var textureAtlasData = this._buildTextureAtlasData(null, null);
-            this._dataParser.parseTextureAtlasData(rawData, textureAtlasData, scale);
-            this._buildTextureAtlasData(textureAtlasData, textureAtlas || null);
-            this.addTextureAtlasData(textureAtlasData, name);
-            return textureAtlasData;
+            if (name === void 0) {
+							name = null;
+						}
+
+						if (scale === void 0) {
+							scale = 1.0;
+						}
+						var textureAtlasData = this._buildTextureAtlasData(null, null);
+						this._dataParser.parseTextureAtlasData(rawData, textureAtlasData, scale);
+
+						// console.log({rawData, textureAtlasData, scale})
+						this._buildTextureAtlasData(textureAtlasData, textureAtlas || null);
+						this.addTextureAtlasData(textureAtlasData, name);
+						return textureAtlasData;
         };
         /**
          * - Update texture atlases.
