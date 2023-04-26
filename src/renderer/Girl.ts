@@ -16,8 +16,7 @@ export default class Girl extends PIXI.Container {
 	constructor() {
 		super();
 
-		// Import girl texture and armature data exported from Blender COA tools
-		// TODO
+		// TODO - move PIXI.loader to some kind of manager
 		PIXI.loader.add('girl/dragonbones-export/Girl_ske.json');
 		PIXI.loader.add('girl/dragonbones-export/Girl_tex.json');
 		PIXI.loader.add('girl/dragonbones-export/Girl_tex.png');
@@ -29,7 +28,20 @@ export default class Girl extends PIXI.Container {
 			// Parse and create Girl Armature
 			const factory = new dragonBones.PixiFactory();
 
+			/**
+			 * Skeleton
+			 * TODO - set parameter for "parseDragonBonesData" through constructor
+			 */
 			factory.parseDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
+
+			console.log({
+				'cojsoudata?': resources['girl/dragonbones-export/Girl_tex.json'].data,
+				'cojetexture?': resources['girl/dragonbones-export/Girl_tex.png'].texture
+			});
+			/**
+			 * @param data = "texture" coordinates
+			 * @param texture = whole image
+			 */
 			factory.parseTextureAtlasData(
 				resources['girl/dragonbones-export/Girl_tex.json'].data,
 				resources['girl/dragonbones-export/Girl_tex.png'].texture,
