@@ -24,9 +24,12 @@ export default class Girl extends PIXI.Container {
 		PIXI.loader.add('girl/dragonbones-export/Girl_tex.png');
 		PIXI.loader.add('girl/dragonbones-export/Girl_tex2.png');
 		//
-
-		PIXI.loader.add('girl/sprites/head.png');
 		PIXI.loader.add('girl/sprites/body.png');
+		PIXI.loader.add('girl/sprites/eyes-closed.png');
+		PIXI.loader.add('girl/sprites/eyes-open.png');
+		PIXI.loader.add('girl/sprites/head.png');
+		PIXI.loader.add('girl/sprites/leg-left.png');
+		PIXI.loader.add('girl/sprites/leg-right.png');
 		PIXI.loader.add('girl/sprites/scarf.png');
 
 		PIXI.loader.once('complete', (
@@ -55,9 +58,15 @@ export default class Girl extends PIXI.Container {
 				null,
 				null,
 				{
-					'head.png': resources['girl/sprites/head.png'].texture,
-					'body.png': resources['girl/sprites/body.png'].texture,
-					'scarf.png': resources['girl/sprites/scarf.png'].texture,
+					// 'head.png': resources['girl/sprites/head.png'].texture,
+
+						'body.png':  resources['girl/sprites/body.png'].texture,
+						'eyes-closed.png':  resources['girl/sprites/eyes-closed.png'].texture,
+						'eyes-open.png':  resources['girl/sprites/eyes-open.png'].texture,
+						'head.png':  resources['girl/sprites/head.png'].texture,
+						'leg-left.png':  resources['girl/sprites/leg-left.png'].texture,
+						'leg-right.png':  resources['girl/sprites/leg-right.png'].texture,
+						'scarf.png':  resources['girl/sprites/scarf.png'].texture,
 				}
 			);
 

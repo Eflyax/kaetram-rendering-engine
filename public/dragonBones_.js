@@ -15257,39 +15257,39 @@ var dragonBones;
 			},
 			set: function (value) {
 				// called by ureAtlasData.renderTexture = textureAtlas; line: 15955
-				console.log({'_customTextures': value.customTextures});
+				// console.log({'_customTextures': value.customTextures});
 
 				if (value) {
 					for (var k in this.textures) {
 						var textureData = this.textures[k];
 
-						// console.log({log_textureData: textureData.name})
-
-
-						// value.customTextures[textureData.name], // todo - replace whole texture with sprite
 
 						textureData.renderTexture = new PIXI.Texture(
-							value, // todo - replace whole texture with sprite
-							new PIXI.Rectangle(
-								textureData.region.x,
-								textureData.region.y,
-								textureData.region.width,
-								textureData.region.height
-							),
-							new PIXI.Rectangle(
-								textureData.region.x,
-								textureData.region.y,
-								textureData.region.width,
-								textureData.region.height
-							),
-							new PIXI.Rectangle(
-								0,
-								0,
-								textureData.region.width,
-								textureData.region.height
-							),
+							value.customTextures[textureData.name], // todo - replace whole texture with sprite
+							// new PIXI.Rectangle(
+							// 	textureData.region.x,
+							// 	textureData.region.y,
+							// 	textureData.region.width,
+							// 	textureData.region.height
+							// ),
+							null,
+							// new PIXI.Rectangle(
+							// 	textureData.region.x,
+							// 	textureData.region.y,
+							// 	textureData.region.width,
+							// 	textureData.region.height
+							// ),
+							null,
+							// new PIXI.Rectangle(
+							// 	0,
+							// 	0,
+							// 	textureData.region.width,
+							// 	textureData.region.height
+							// ),
+							null,
 							textureData.rotated // .d.ts bug
 						);
+						// console.log({[k]: textureData.renderTexture})
 					}
 				}
 				else {
