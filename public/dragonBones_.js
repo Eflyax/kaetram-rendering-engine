@@ -13703,7 +13703,6 @@ var dragonBones;
 			}
 			return null;
 		};
-		// WIP
 		ObjectDataParser.prototype.parseTextureAtlasData = function (rawData, textureAtlasData, scale) {
 			if (scale === void 0) {
 				scale = 1.0;
@@ -14533,7 +14532,9 @@ var dragonBones;
 		 * @version DragonBones 4.5
 		 * @language zh_CN
 		 */
+		// WIP - used by object "Girl"
 		BaseFactory.prototype.parseTextureAtlasData = function (rawData, textureAtlas, name, scale) {
+
 			if (name === void 0) {
 				name = null;
 			}
@@ -14542,11 +14543,14 @@ var dragonBones;
 				scale = 1.0;
 			}
 			var textureAtlasData = this._buildTextureAtlasData(null, null);
+
 			this._dataParser.parseTextureAtlasData(rawData, textureAtlasData, scale);
 
-			// console.log({rawData, textureAtlasData, scale})
+
 			this._buildTextureAtlasData(textureAtlasData, textureAtlas || null);
+
 			this.addTextureAtlasData(textureAtlasData, name);
+
 			return textureAtlasData;
 		};
 		/**
@@ -14711,10 +14715,12 @@ var dragonBones;
 		BaseFactory.prototype.addTextureAtlasData = function (data, name) {
 			if (name === void 0) { name = null; }
 			name = name !== null ? name : data.name;
+
 			var textureAtlasList = (name in this._textureAtlasDataMap) ? this._textureAtlasDataMap[name] : (this._textureAtlasDataMap[name] = []);
 			if (textureAtlasList.indexOf(data) < 0) {
 				textureAtlasList.push(data);
 			}
+
 		};
 		/**
 		 * - Remove a TextureAtlasData instance.
@@ -15238,7 +15244,7 @@ var dragonBones;
 				if (this._renderTexture !== null) {
 					for (var k in this.textures) {
 						var textureData = this.textures[k];
-						console.log({pixi_Render: this._renderTexture});
+						// console.log({pixi_Render: this._renderTexture});
 						textureData.renderTexture = new PIXI.Texture(this._renderTexture, new PIXI.Rectangle(textureData.region.x, textureData.region.y, textureData.region.width, textureData.region.height), new PIXI.Rectangle(textureData.region.x, textureData.region.y, textureData.region.width, textureData.region.height), new PIXI.Rectangle(0, 0, textureData.region.width, textureData.region.height), textureData.rotated // .d.ts bug
 						);
 					}

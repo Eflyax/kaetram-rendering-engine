@@ -13,6 +13,8 @@ export default class Girl extends PIXI.Container {
 	private targetX: number;
 	private targetY: number;
 
+	private factory;
+
 	constructor() {
 		super();
 
@@ -21,33 +23,34 @@ export default class Girl extends PIXI.Container {
 		PIXI.loader.add('girl/dragonbones-export/Girl_tex.json');
 		PIXI.loader.add('girl/dragonbones-export/Girl_tex.png');
 
+
 		PIXI.loader.once('complete', (
 			loader: PIXI.loaders.Loader,
 			resources: dragonBones.Map<PIXI.loaders.Resource>,
 		) => {
 			// Parse and create Girl Armature
-			const factory = new dragonBones.PixiFactory();
+			this.factory = new dragonBones.PixiFactory();
 
 			/**
 			 * Skeleton
 			 * TODO - set parameter for "parseDragonBonesData" through constructor
 			 */
-			factory.parseDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
+			this.factory.parseDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
 
-			console.log({
-				'cojsoudata?': resources['girl/dragonbones-export/Girl_tex.json'].data,
-				'cojetexture?': resources['girl/dragonbones-export/Girl_tex.png'].texture
-			});
+			const atlasData = resources['girl/dragonbones-export/Girl_tex.json'].data;
 			/**
 			 * @param data = "texture" coordinates
 			 * @param texture = whole image
 			 */
-			factory.parseTextureAtlasData(
-				resources['girl/dragonbones-export/Girl_tex.json'].data,
+			this.factory.parseTextureAtlasData(
+				atlasData,
 				resources['girl/dragonbones-export/Girl_tex.png'].texture,
 			);
 
-			this.armature = factory.buildArmatureDisplay('Armature');
+
+			// textureAtlasData.textures['body.png'].region = { x: 339, y: 280, width: 442, height: 337 };
+
+			this.armature = this.factory.buildArmatureDisplay('Armature');
 
 			// Resize girl
 			this.armature.scale.x = 0.1;
@@ -64,6 +67,8 @@ export default class Girl extends PIXI.Container {
 
 			// Add armature sprite to the scene
 			this.addChild(this.armature);
+
+			// console.log(this.armature._armature);
 		});
 	}
 
@@ -86,6 +91,13 @@ export default class Girl extends PIXI.Container {
 				this.startBlinking();
 			}, 100);
 		}, Math.random() * 3000);
+	}
+
+
+	public changeScarf() {
+		const textAtlasData = this.factory.getTextureAtlasData('Girl');
+
+		console.log({textAtlasData})
 	}
 
 	public stopBlinking(): void {
