@@ -14546,10 +14546,7 @@ var dragonBones;
 		 * @language zh_CN
 		 */
 		// WIP - used by object "Girl"
-		BaseFactory.prototype.parseTextureAtlasData = function (rawData, textureAtlas, name, scale) {
-
-			// textureAtlas = null;
-
+		BaseFactory.prototype.parseTextureAtlasData = function (rawData, textureAtlas, name, scale, sprites) {
 			if (name === void 0) {
 				name = null;
 			}
@@ -14561,7 +14558,15 @@ var dragonBones;
 
 			this._dataParser.parseTextureAtlasData(rawData, textureAtlasData, scale);
 
-			this._buildTextureAtlasData(textureAtlasData, textureAtlas || null);
+			if (!textureAtlas.customTextures) {
+				textureAtlas.customTextures = {};
+			}
+
+			for (const key in sprites) {
+				textureAtlas.customTextures[key] = sprites[key];
+			}
+
+			textureAtlasData.renderTexture = textureAtlas;
 
 			this.addTextureAtlasData(textureAtlasData, name);
 
@@ -15251,21 +15256,20 @@ var dragonBones;
 				return this._renderTexture;
 			},
 			set: function (value) {
-				console.log({do_rende_tex_jde_val: value});
+				// called by ureAtlasData.renderTexture = textureAtlas; line: 15955
+				console.log({'_customTextures': value.customTextures});
 
-				if (this._renderTexture === value) {
-					return;
-				}
-
-				this._renderTexture = value;
-				if (this._renderTexture !== null) {
+				if (value) {
 					for (var k in this.textures) {
 						var textureData = this.textures[k];
-						// todoooo
-						console.log({'log: this._renderTexture': this._renderTexture});
+
+						// console.log({log_textureData: textureData.name})
+
+
+						// value.customTextures[textureData.name], // todo - replace whole texture with sprite
 
 						textureData.renderTexture = new PIXI.Texture(
-							this._renderTexture, // todo - replace whole texture with sprite
+							value, // todo - replace whole texture with sprite
 							new PIXI.Rectangle(
 								textureData.region.x,
 								textureData.region.y,
@@ -15953,6 +15957,8 @@ var dragonBones;
 			configurable: true
 		});
 		PixiFactory.prototype._buildTextureAtlasData = function (textureAtlasData, textureAtlas) {
+			// console.log({global_textureAtlasData: textureAtlasData});
+
 			if (textureAtlasData) {
 				textureAtlasData.renderTexture = textureAtlas;
 			}

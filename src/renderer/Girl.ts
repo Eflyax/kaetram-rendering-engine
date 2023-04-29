@@ -51,7 +51,14 @@ export default class Girl extends PIXI.Container {
 			 */
 			this.factory.parseTextureAtlasData(
 				atlasData,
-				resources['girl/dragonbones-export/Girl_tex.png'].texture, // todo - replace with sprites
+				resources['girl/dragonbones-export/Girl_tex.png'].texture, // todo - replace with sprites,
+				null,
+				null,
+				{
+					'head.png': resources['girl/sprites/head.png'].texture,
+					'body.png': resources['girl/sprites/body.png'].texture,
+					'scarf.png': resources['girl/sprites/scarf.png'].texture,
+				}
 			);
 
 			this.armature = this.factory.buildArmatureDisplay('Armature');
