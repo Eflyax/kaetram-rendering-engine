@@ -22,6 +22,7 @@ export default class Girl extends PIXI.Container {
 		PIXI.loader.add('girl/dragonbones-export/Girl_ske.json');
 		PIXI.loader.add('girl/dragonbones-export/Girl_tex.json');
 		PIXI.loader.add('girl/dragonbones-export/Girl_tex.png');
+		PIXI.loader.add('girl/dragonbones-export/Girl_tex2.png');
 		//
 
 		PIXI.loader.add('girl/sprites/head.png');
@@ -40,6 +41,8 @@ export default class Girl extends PIXI.Container {
 			 * TODO - set parameter for "parseDragonBonesData" through constructor
 			 */
 			this.factory.parseDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
+
+			// console.log({factoryGitl: this.factory});
 
 			const atlasData = resources['girl/dragonbones-export/Girl_tex.json'].data;
 			/**

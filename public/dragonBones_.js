@@ -13739,17 +13739,16 @@ var dragonBones;
 			*/
 			rawData.imagePath = null;
 
-			console.log({rawData});
-			// TODO - rawData.imagePath is whole texture
 			textureAtlasData.width = ObjectDataParser._getNumber(rawData, dragonBones.DataParser.WIDTH, 0);
 			textureAtlasData.height = ObjectDataParser._getNumber(rawData, dragonBones.DataParser.HEIGHT, 0);
 			textureAtlasData.scale = scale === 1.0 ? (1.0 / ObjectDataParser._getNumber(rawData, dragonBones.DataParser.SCALE, 1.0)) : scale;
 			textureAtlasData.name = ObjectDataParser._getString(rawData, dragonBones.DataParser.NAME, "");
 
+			// console.log({coted: textureAtlasData});//gitlr_text_2 ???
+
+			// return;
 			if (dragonBones.DataParser.SUB_TEXTURE in rawData) {
 				var rawTextures = rawData[dragonBones.DataParser.SUB_TEXTURE];
-
-				console.log({tady_je_base: textureAtlasData});
 
 				for (var i = 0, l = rawTextures.length; i < l; ++i) {
 				var
@@ -13757,6 +13756,7 @@ var dragonBones;
 					textureData = textureAtlasData.createTexture();
 
 					// console.log({textureData});
+
 					textureData.rotated = ObjectDataParser._getBoolean(rawTexture, dragonBones.DataParser.ROTATED, false);
 					textureData.name = ObjectDataParser._getString(rawTexture, dragonBones.DataParser.NAME, "");
 					textureData.region.x = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.X, 0.0);
@@ -13769,13 +13769,11 @@ var dragonBones;
 					 * 1) change "textureData.baseTexture" to sprite
 					 * 2) textureData.region = to local coordinates
 					 */
-					console.log({textureData});
+					// console.log({textureData});
 
 					textureAtlasData.addTexture(textureData);
 				}
 			}
-
-			console.log({textttt: textureAtlasData});
 
 			return true;
 		};
@@ -15253,15 +15251,40 @@ var dragonBones;
 				return this._renderTexture;
 			},
 			set: function (value) {
+				console.log({do_rende_tex_jde_val: value});
+
 				if (this._renderTexture === value) {
 					return;
 				}
+
 				this._renderTexture = value;
 				if (this._renderTexture !== null) {
 					for (var k in this.textures) {
 						var textureData = this.textures[k];
-						// console.log({pixi_Render: this._renderTexture});
-						textureData.renderTexture = new PIXI.Texture(this._renderTexture, new PIXI.Rectangle(textureData.region.x, textureData.region.y, textureData.region.width, textureData.region.height), new PIXI.Rectangle(textureData.region.x, textureData.region.y, textureData.region.width, textureData.region.height), new PIXI.Rectangle(0, 0, textureData.region.width, textureData.region.height), textureData.rotated // .d.ts bug
+						// todoooo
+						console.log({'log: this._renderTexture': this._renderTexture});
+
+						textureData.renderTexture = new PIXI.Texture(
+							this._renderTexture, // todo - replace whole texture with sprite
+							new PIXI.Rectangle(
+								textureData.region.x,
+								textureData.region.y,
+								textureData.region.width,
+								textureData.region.height
+							),
+							new PIXI.Rectangle(
+								textureData.region.x,
+								textureData.region.y,
+								textureData.region.width,
+								textureData.region.height
+							),
+							new PIXI.Rectangle(
+								0,
+								0,
+								textureData.region.width,
+								textureData.region.height
+							),
+							textureData.rotated // .d.ts bug
 						);
 					}
 				}
