@@ -13744,11 +13744,11 @@ var dragonBones;
 			textureAtlasData.scale = scale === 1.0 ? (1.0 / ObjectDataParser._getNumber(rawData, dragonBones.DataParser.SCALE, 1.0)) : scale;
 			textureAtlasData.name = ObjectDataParser._getString(rawData, dragonBones.DataParser.NAME, "");
 
-			// console.log({coted: textureAtlasData});//gitlr_text_2 ???
-
 			// return;
 			if (dragonBones.DataParser.SUB_TEXTURE in rawData) {
 				var rawTextures = rawData[dragonBones.DataParser.SUB_TEXTURE];
+
+				console.log({rawTextures});
 
 				for (var i = 0, l = rawTextures.length; i < l; ++i) {
 				var
@@ -13757,13 +13757,18 @@ var dragonBones;
 
 					// console.log({textureData});
 
+					// console.log({
+					// 	name: rawTexture.name,
+					// });
+
 					textureData.rotated = ObjectDataParser._getBoolean(rawTexture, dragonBones.DataParser.ROTATED, false);
 					textureData.name = ObjectDataParser._getString(rawTexture, dragonBones.DataParser.NAME, "");
-					textureData.region.x = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.X, 0.0);
-					textureData.region.y = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.Y, 0.0);
-					textureData.region.width = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.WIDTH, 0.0);
-					textureData.region.height = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.HEIGHT, 0.0);
+					textureData.region.x = 0;// ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.X, 0.0);
+					textureData.region.y = 0; //ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.Y, 0.0);
+					textureData.region.width = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.FRAME_WIDTH, 0.0);
+					textureData.region.height = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.FRAME_HEIGHT, 0.0);
 
+					console.log(textureData);
 					/**
 					 * TODO
 					 * 1) change "textureData.baseTexture" to sprite
@@ -15257,36 +15262,37 @@ var dragonBones;
 			},
 			set: function (value) {
 				// called by ureAtlasData.renderTexture = textureAtlas; line: 15955
-				// console.log({'_customTextures': value.customTextures});
 
 				if (value) {
 					for (var k in this.textures) {
 						var textureData = this.textures[k];
 
-
+						const texture = value.customTextures[textureData.name];
+						console.log({
+							name: textureData.name,
+							texture
+						});
+						// texture rendering
 						textureData.renderTexture = new PIXI.Texture(
-							value.customTextures[textureData.name], // todo - replace whole texture with sprite
-							// new PIXI.Rectangle(
-							// 	textureData.region.x,
-							// 	textureData.region.y,
-							// 	textureData.region.width,
-							// 	textureData.region.height
-							// ),
-							null,
-							// new PIXI.Rectangle(
-							// 	textureData.region.x,
-							// 	textureData.region.y,
-							// 	textureData.region.width,
-							// 	textureData.region.height
-							// ),
-							null,
-							// new PIXI.Rectangle(
-							// 	0,
-							// 	0,
-							// 	textureData.region.width,
-							// 	textureData.region.height
-							// ),
-							null,
+							value.customTextures[textureData.name],
+							new PIXI.Rectangle(
+								textureData.region.x,
+								textureData.region.y,
+								texture.orig.width, // textureData.region.width,
+								texture.orig.height//textureData.region.height
+							),
+							new PIXI.Rectangle(
+								textureData.region.x,
+								textureData.region.y,
+								textureData.region.width,
+								textureData.region.height
+							),
+							new PIXI.Rectangle(
+								0,
+								0,
+								textureData.region.width,
+								textureData.region.height
+							),
 							textureData.rotated // .d.ts bug
 						);
 						// console.log({[k]: textureData.renderTexture})

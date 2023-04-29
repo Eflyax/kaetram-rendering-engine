@@ -1,1 +1,71 @@
-{"SubTexture":[{"width":479,"y":621,"x":1,"height":400,"name":"scarf.png"},{"width":89,"y":904,"x":484,"height":20,"name":"eyes-closed.png"},{"width":67,"y":928,"x":484,"height":94,"name":"eyes-open.png"},{"width":442,"y":280,"x":439,"height":337,"name":"body.png"},{"width":434,"y":272,"x":1,"height":346,"name":"head.png"},{"width":51,"y":1,"x":885,"height":616,"name":"leg-left.png"},{"width":42,"y":20,"x":939,"height":598,"name":"leg-right.png"}],"name":"Girl","imagePath":"Girl_tex.png","height":1024,"width":1024}
+{
+	"SubTexture": [
+		{
+			"width": 479,
+			"y": 621,
+			"x": 1,
+			"height": 400,
+			"name": "scarf.png",
+			"frameWidth": 494,
+			"frameHeight": 413
+		},
+		{
+			"width": 89,
+			"y": 904,
+			"x": 484,
+			"height": 20,
+			"name": "eyes-closed.png",
+			"frameWidth": 92,
+			"frameHeight": 21
+		},
+		{
+			"width": 67,
+			"y": 928,
+			"x": 484,
+			"height": 94,
+			"name": "eyes-open.png",
+			"frameWidth": 70,
+			"frameHeight": 97
+		},
+		{
+			"width": 442,
+			"y": 280,
+			"x": 439,
+			"height": 337,
+			"name": "body.png",
+			"frameWidth": 456,
+			"frameHeight": 348
+		},
+		{
+			"width": 434,
+			"y": 272,
+			"x": 1,
+			"height": 346,
+			"name": "head.png",
+			"frameWidth": 448,
+			"frameHeight": 357
+		},
+		{
+			"width": 51,
+			"y": 1,
+			"x": 885,
+			"height": 616,
+			"name": "leg-left.png",
+			"frameWidth": 53,
+			"frameHeight": 636
+		},
+		{
+			"width": 42,
+			"y": 20,
+			"x": 939,
+			"height": 598,
+			"name": "leg-right.png",
+			"frameWidth": 44,
+			"frameHeight": 617
+		}
+	],
+	"name": "Girl",
+	"imagePath": "Girl_tex.png",
+	"height": 1024,
+	"width": 1024
+}
