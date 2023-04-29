@@ -3355,6 +3355,7 @@ var dragonBones;
 			// this.textures.clear();
 			for (var k in value.textures) {
 				var texture = this.createTexture();
+				console.log({kopiruji_textutu_z: value.textures[k]});
 				texture.copyFrom(value.textures[k]);
 				this.textures[k] = texture;
 			}
@@ -13724,7 +13725,7 @@ var dragonBones;
 			}
 
 
-			/*	We have a texture format
+			/* WIP -	We have a texture format
 
 			rawData: Object {
 				name: "Girl", imagePath: "Girl_tex.png
@@ -13736,22 +13737,26 @@ var dragonBones;
 				x: 1
 				y: 621
 			*/
-			// console.log({rawData});
+			rawData.imagePath = null;
+
+			console.log({rawData});
+			// TODO - rawData.imagePath is whole texture
 			textureAtlasData.width = ObjectDataParser._getNumber(rawData, dragonBones.DataParser.WIDTH, 0);
 			textureAtlasData.height = ObjectDataParser._getNumber(rawData, dragonBones.DataParser.HEIGHT, 0);
 			textureAtlasData.scale = scale === 1.0 ? (1.0 / ObjectDataParser._getNumber(rawData, dragonBones.DataParser.SCALE, 1.0)) : scale;
 			textureAtlasData.name = ObjectDataParser._getString(rawData, dragonBones.DataParser.NAME, "");
 
-			// "textureAtlasData.imagePath" is not used for rendering!
-			// textureAtlasData.imagePath = ObjectDataParser._getString(rawData, dragonBones.DataParser.IMAGE_PATH, "");
-
 			if (dragonBones.DataParser.SUB_TEXTURE in rawData) {
 				var rawTextures = rawData[dragonBones.DataParser.SUB_TEXTURE];
+
+				console.log({tady_je_base: textureAtlasData});
 
 				for (var i = 0, l = rawTextures.length; i < l; ++i) {
 				var
 					rawTexture = rawTextures[i],
 					textureData = textureAtlasData.createTexture();
+
+					// console.log({textureData});
 					textureData.rotated = ObjectDataParser._getBoolean(rawTexture, dragonBones.DataParser.ROTATED, false);
 					textureData.name = ObjectDataParser._getString(rawTexture, dragonBones.DataParser.NAME, "");
 					textureData.region.x = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.X, 0.0);
@@ -13759,9 +13764,19 @@ var dragonBones;
 					textureData.region.width = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.WIDTH, 0.0);
 					textureData.region.height = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.HEIGHT, 0.0);
 
+					/**
+					 * TODO
+					 * 1) change "textureData.baseTexture" to sprite
+					 * 2) textureData.region = to local coordinates
+					 */
+					console.log({textureData});
+
 					textureAtlasData.addTexture(textureData);
 				}
 			}
+
+			console.log({textttt: textureAtlasData});
+
 			return true;
 		};
 		/**
@@ -14535,6 +14550,8 @@ var dragonBones;
 		// WIP - used by object "Girl"
 		BaseFactory.prototype.parseTextureAtlasData = function (rawData, textureAtlas, name, scale) {
 
+			// textureAtlas = null;
+
 			if (name === void 0) {
 				name = null;
 			}
@@ -14545,7 +14562,6 @@ var dragonBones;
 			var textureAtlasData = this._buildTextureAtlasData(null, null);
 
 			this._dataParser.parseTextureAtlasData(rawData, textureAtlasData, scale);
-
 
 			this._buildTextureAtlasData(textureAtlasData, textureAtlas || null);
 
@@ -15667,8 +15683,14 @@ var dragonBones;
 						var uvOffset = vertexOffset + vertexCount * 2;
 						var scale = this._armature._armatureData.scale;
 						var meshDisplay = this._renderDisplay;
-						var textureAtlasWidth = currentTextureAtlasData.width > 0.0 ? currentTextureAtlasData.width : renderTexture.baseTexture.width;
-						var textureAtlasHeight = currentTextureAtlasData.height > 0.0 ? currentTextureAtlasData.height : renderTexture.baseTexture.height;
+
+						var textureAtlasWidth = currentTextureAtlasData.width > 0.0
+							? currentTextureAtlasData.width
+							: renderTexture.baseTexture.width;
+						var textureAtlasHeight = currentTextureAtlasData.height > 0.0
+							? currentTextureAtlasData.height
+							: renderTexture.baseTexture.height;
+
 						var region = currentTextureData.region;
 						meshDisplay.vertices = new Float32Array(vertexCount * 2);
 						meshDisplay.uvs = new Float32Array(vertexCount * 2);

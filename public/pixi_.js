@@ -4642,7 +4642,7 @@
 
 					// check if resource already exists.
 					if (this.resources[name]) {
-							throw new Error('Resource named "' + name + '" already exists.');
+						return;
 					}
 
 					// add base url if this isn't an absolute url

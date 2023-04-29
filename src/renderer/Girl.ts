@@ -22,7 +22,11 @@ export default class Girl extends PIXI.Container {
 		PIXI.loader.add('girl/dragonbones-export/Girl_ske.json');
 		PIXI.loader.add('girl/dragonbones-export/Girl_tex.json');
 		PIXI.loader.add('girl/dragonbones-export/Girl_tex.png');
+		//
 
+		PIXI.loader.add('girl/sprites/head.png');
+		PIXI.loader.add('girl/sprites/body.png');
+		PIXI.loader.add('girl/sprites/scarf.png');
 
 		PIXI.loader.once('complete', (
 			loader: PIXI.loaders.Loader,
@@ -44,11 +48,8 @@ export default class Girl extends PIXI.Container {
 			 */
 			this.factory.parseTextureAtlasData(
 				atlasData,
-				resources['girl/dragonbones-export/Girl_tex.png'].texture,
+				resources['girl/dragonbones-export/Girl_tex.png'].texture, // todo - replace with sprites
 			);
-
-
-			// textureAtlasData.textures['body.png'].region = { x: 339, y: 280, width: 442, height: 337 };
 
 			this.armature = this.factory.buildArmatureDisplay('Armature');
 
@@ -72,6 +73,11 @@ export default class Girl extends PIXI.Container {
 		});
 	}
 
+	public changeScarf() {
+		console.log('changeScarf');
+		PIXI.loader.add('girl/dragonbones-export/Girl_tex2.png');
+	}
+
 	public getArmature(): dragonBones.PixiArmatureDisplay {
 		return this.armature;
 	}
@@ -91,13 +97,6 @@ export default class Girl extends PIXI.Container {
 				this.startBlinking();
 			}, 100);
 		}, Math.random() * 3000);
-	}
-
-
-	public changeScarf() {
-		const textAtlasData = this.factory.getTextureAtlasData('Girl');
-
-		console.log({textAtlasData})
 	}
 
 	public stopBlinking(): void {
