@@ -17,8 +17,6 @@ export default class Girl extends PIXI.Container {
 		// TODO - move PIXI.loader to some kind of manager
 		PIXI.loader.add('girl/dragonbones-export/Girl_ske.json');
 		PIXI.loader.add('girl/dragonbones-export/Girl_tex.json');
-		PIXI.loader.add('girl/dragonbones-export/Girl_tex.png');
-		PIXI.loader.add('girl/dragonbones-export/Girl_tex2.png');
 		//
 		PIXI.loader.add('girl/sprites/body.png');
 		PIXI.loader.add('girl/sprites/eyes-closed.png');
@@ -40,7 +38,7 @@ export default class Girl extends PIXI.Container {
 
 			this.factory.parseTextureAtlasData(
 				atlasData,
-				resources['girl/dragonbones-export/Girl_tex.png'].texture, // todo - remove
+				{},
 				null,
 				null,
 				{

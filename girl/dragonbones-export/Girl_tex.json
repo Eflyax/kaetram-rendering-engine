@@ -33,8 +33,8 @@
 			"x": 439,
 			"height": 337,
 			"name": "body.png",
-			"frameWidth": 1024,
-			"frameHeight": 1024
+			"frameWidth": 456,
+			"frameHeight": 348
 		},
 		{
 			"width": 434,
@@ -42,8 +42,8 @@
 			"x": 1,
 			"height": 346,
 			"name": "head.png",
-			"frameWidth": 1024,
-			"frameHeight": 1024
+			"frameWidth": 448,
+			"frameHeight": 357
 		},
 		{
 			"width": 51,
@@ -64,8 +64,5 @@
 			"frameHeight": 617
 		}
 	],
-	"name": "Girl",
-	"imagePath": "Girl_tex.png_",
-	"height": 1024,
-	"width": 1024
+	"name": "Girl"
 }

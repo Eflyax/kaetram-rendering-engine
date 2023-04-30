@@ -24,7 +24,7 @@ export class App extends PIXI.Application {
         this.girl = new Girl();
 
         this.girl.x = 100.0;
-        this.girl.y = 150.0;
+        this.girl.y = 200.0;
 
 
         this.stage.addChild(this.girl);

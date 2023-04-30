@@ -13754,12 +13754,10 @@ var dragonBones;
 
 					textureData.rotated = ObjectDataParser._getBoolean(rawTexture, dragonBones.DataParser.ROTATED, false);
 					textureData.name = ObjectDataParser._getString(rawTexture, dragonBones.DataParser.NAME, "");
-					textureData.region.x = 0;// ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.X, 0.0);
+					textureData.region.x = 0; // ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.X, 0.0);
 					textureData.region.y = 0; //ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.Y, 0.0);
-					textureData.region.width = 1024;// ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.FRAME_WIDTH, 0.0);
-					textureData.region.height = 1024;// ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.FRAME_HEIGHT, 0.0);
-
-					console.log({textureData});
+					textureData.region.width = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.FRAME_WIDTH, 0.0);
+					textureData.region.height = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.FRAME_HEIGHT, 0.0);
 
 					textureAtlasData.addTexture(textureData);
 				}
