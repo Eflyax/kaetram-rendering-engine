@@ -1,7 +1,3 @@
-// import * as dragonBones from './dragonBones.min.js';
-
-// console.log(dragonBones);
-
 export default class Girl extends PIXI.Container {
 	private armature: dragonBones.PixiArmatureDisplay;
 
@@ -36,30 +32,18 @@ export default class Girl extends PIXI.Container {
 			loader: PIXI.loaders.Loader,
 			resources: dragonBones.Map<PIXI.loaders.Resource>,
 		) => {
-			// Parse and create Girl Armature
 			this.factory = new dragonBones.PixiFactory();
 
-			/**
-			 * Skeleton
-			 * TODO - set parameter for "parseDragonBonesData" through constructor
-			 */
 			this.factory.parseDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
 
-			// console.log({factoryGitl: this.factory});
-
 			const atlasData = resources['girl/dragonbones-export/Girl_tex.json'].data;
-			/**
-			 * @param data = "texture" coordinates
-			 * @param texture = whole image
-			 */
+
 			this.factory.parseTextureAtlasData(
 				atlasData,
-				resources['girl/dragonbones-export/Girl_tex.png'].texture, // todo - replace with sprites,
+				resources['girl/dragonbones-export/Girl_tex.png'].texture, // todo - remove
 				null,
 				null,
 				{
-					// 'head.png': resources['girl/sprites/head.png'].texture,
-
 						'body.png':  resources['girl/sprites/body.png'].texture,
 						'eyes-closed.png':  resources['girl/sprites/eyes-closed.png'].texture,
 						'eyes-open.png':  resources['girl/sprites/eyes-open.png'].texture,
@@ -80,7 +64,7 @@ export default class Girl extends PIXI.Container {
 			this.armature.animation.play('idle');
 
 			// Play animation 5x faster
-			this.armature.animation.timeScale = 5;
+			this.armature.animation.timeScale = 3;
 
 			// Make eyes blinking (see openEyes and closeEyes)
 			this.startBlinking();
