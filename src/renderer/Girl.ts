@@ -13,7 +13,6 @@ export default class Girl extends PIXI.Container {
 
 	constructor() {
 		super();
-
 		PIXI.loader.add('girl/dragonbones-export/Girl_ske.json');
 		PIXI.loader.add('girl/dragonbones-export/Girl_tex.json');
 		//
@@ -37,12 +36,13 @@ export default class Girl extends PIXI.Container {
 			loader: PIXI.loaders.Loader,
 			resources: dragonBones.Map<PIXI.loaders.Resource>,
 		) => {
+			this.factory = new dragonBones.PixiFactory();
+			// animation has stopped after this :-(
+
 			if (this.armature) {
 				this.removeChild(this.armature);
 				this.factory.removeDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
 			}
-
-			this.factory = new dragonBones.PixiFactory();
 
 			this.factory.parseDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
 
