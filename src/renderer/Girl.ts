@@ -14,8 +14,6 @@ export default class Girl extends PIXI.Container {
 	constructor() {
 		super();
 
-		this.factory = new dragonBones.PixiFactory();
-
 		PIXI.loader.add('girl/dragonbones-export/Girl_ske.json');
 		PIXI.loader.add('girl/dragonbones-export/Girl_tex.json');
 		//
@@ -41,9 +39,10 @@ export default class Girl extends PIXI.Container {
 		) => {
 			if (this.armature) {
 				this.removeChild(this.armature);
-				// this.factory.removeTextureAtlasData('Girl');
 				this.factory.removeDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
 			}
+
+			this.factory = new dragonBones.PixiFactory();
 
 			this.factory.parseDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
 
@@ -54,6 +53,7 @@ export default class Girl extends PIXI.Container {
 			for (const boneName in clothes) {
 				atlasTextures[boneName] = resources[clothes[boneName]].texture
 			}
+
 			this.factory.parseTextureAtlasData(
 				atlasData,
 				{},
@@ -62,14 +62,13 @@ export default class Girl extends PIXI.Container {
 				atlasTextures
 			);
 
-			if (!this.armature) {
-				this.armature = this.factory.buildArmatureDisplay('Armature');
-				this.armature.scale.x = 0.1;
-				this.armature.scale.y = 0.1;
-				this.armature.animation.play('idle');
-				this.armature.animation.timeScale = 3;
-				this.startBlinking();
-			}
+			this.armature = null;
+			this.armature = this.factory.buildArmatureDisplay('Armature');
+			this.armature.scale.x = 0.1;
+			this.armature.scale.y = 0.1;
+			this.armature.animation.play('idle');
+			this.armature.animation.timeScale = 3;
+			this.startBlinking();
 			this.addChild(this.armature);
 		});
 	}

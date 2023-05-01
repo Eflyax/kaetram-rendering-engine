@@ -15236,9 +15236,9 @@ var dragonBones;
 				// called by ureAtlasData.renderTexture = textureAtlas; line: 15955
 				if (value) {
 					for (var k in this.textures) {
-						var textureData = this.textures[k];
-
-						const texture = value.customTextures[textureData.name];
+						const
+							textureData = this.textures[k],
+							texture = value.customTextures[textureData.name];
 
 						// texture rendering
 						textureData.renderTexture = new PIXI.Texture(
