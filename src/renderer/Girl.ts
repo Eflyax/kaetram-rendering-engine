@@ -14,69 +14,64 @@ export default class Girl extends PIXI.Container {
 	constructor() {
 		super();
 
-		// TODO - move PIXI.loader to some kind of manager
+		this.factory = new dragonBones.PixiFactory();
+
 		PIXI.loader.add('girl/dragonbones-export/Girl_ske.json');
 		PIXI.loader.add('girl/dragonbones-export/Girl_tex.json');
 		//
-		PIXI.loader.add('girl/sprites/body.png');
-		PIXI.loader.add('girl/sprites/eyes-closed.png');
-		PIXI.loader.add('girl/sprites/eyes-open.png');
-		PIXI.loader.add('girl/sprites/head.png');
-		PIXI.loader.add('girl/sprites/leg-left.png');
-		PIXI.loader.add('girl/sprites/leg-right.png');
-		PIXI.loader.add('girl/sprites/scarf.png');
+		this.draw({
+			'body.png': 'girl/sprites/body.png',
+			'eyes-closed.png': 'girl/sprites/eyes-closed.png',
+			'eyes-open.png': 'girl/sprites/eyes-open.png',
+			'head.png': 'girl/sprites/head.png',
+			'leg-left.png': 'girl/sprites/leg-left.png',
+			'leg-right.png': 'girl/sprites/leg-right.png',
+			'scarf.png': 'girl/sprites/scarf.png',
+		});
+	}
+
+	public draw(clothes = {} as Record<string, string>, addChild = false) {
+		for (const boneName in clothes) {
+			PIXI.loader.add(clothes[boneName]);
+		}
 
 		PIXI.loader.once('complete', (
 			loader: PIXI.loaders.Loader,
 			resources: dragonBones.Map<PIXI.loaders.Resource>,
 		) => {
-			this.factory = new dragonBones.PixiFactory();
+			if (this.armature) {
+				this.removeChild(this.armature);
+				// this.factory.removeTextureAtlasData('Girl');
+				this.factory.removeDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
+			}
 
 			this.factory.parseDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
 
-			const atlasData = resources['girl/dragonbones-export/Girl_tex.json'].data;
+			const
+				atlasData = resources['girl/dragonbones-export/Girl_tex.json'].data,
+				atlasTextures = {} as Record<string, string>;
 
+			for (const boneName in clothes) {
+				atlasTextures[boneName] = resources[clothes[boneName]].texture
+			}
 			this.factory.parseTextureAtlasData(
 				atlasData,
 				{},
 				null,
 				null,
-				{
-						'body.png':  resources['girl/sprites/body.png'].texture,
-						'eyes-closed.png':  resources['girl/sprites/eyes-closed.png'].texture,
-						'eyes-open.png':  resources['girl/sprites/eyes-open.png'].texture,
-						'head.png':  resources['girl/sprites/head.png'].texture,
-						'leg-left.png':  resources['girl/sprites/leg-left.png'].texture,
-						'leg-right.png':  resources['girl/sprites/leg-right.png'].texture,
-						'scarf.png':  resources['girl/sprites/scarf.png'].texture,
-				}
+				atlasTextures
 			);
 
-			this.armature = this.factory.buildArmatureDisplay('Armature');
-
-			// Resize girl
-			this.armature.scale.x = 0.1;
-			this.armature.scale.y = 0.1;
-
-			// Play idle at the beginning
-			this.armature.animation.play('idle');
-
-			// Play animation 5x faster
-			this.armature.animation.timeScale = 3;
-
-			// Make eyes blinking (see openEyes and closeEyes)
-			this.startBlinking();
-
-			// Add armature sprite to the scene
+			if (!this.armature) {
+				this.armature = this.factory.buildArmatureDisplay('Armature');
+				this.armature.scale.x = 0.1;
+				this.armature.scale.y = 0.1;
+				this.armature.animation.play('idle');
+				this.armature.animation.timeScale = 3;
+				this.startBlinking();
+			}
 			this.addChild(this.armature);
-
-			// console.log(this.armature._armature);
 		});
-	}
-
-	public changeScarf() {
-		console.log('changeScarf');
-		PIXI.loader.add('girl/dragonbones-export/Girl_tex2.png');
 	}
 
 	public getArmature(): dragonBones.PixiArmatureDisplay {

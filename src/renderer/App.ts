@@ -11,7 +11,6 @@ export class App extends PIXI.Application {
     private targetPoint: PIXI.Graphics = new Star();
 
     constructor() {
-        // Init Pixi.Application
         super({
             width: 800,
             height: 600,
@@ -24,8 +23,7 @@ export class App extends PIXI.Application {
         this.girl = new Girl();
 
         this.girl.x = 100.0;
-        this.girl.y = 200.0;
-
+        this.girl.y = 150.0;
 
         this.stage.addChild(this.girl);
 
@@ -43,7 +41,7 @@ export class App extends PIXI.Application {
 
         // Displays pointer where girl is going to
         this.targetPoint.x = 150.0;
-        this.targetPoint.y = 250.0;
+        this.targetPoint.y = 150.0;
         this.stage.addChild(this.targetPoint);
 
         document.body.appendChild(this.view);

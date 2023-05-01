@@ -13724,19 +13724,6 @@ var dragonBones;
 				return true;
 			}
 
-
-			/* WIP -	We have a texture format
-
-			rawData: Object {
-				name: "Girl", imagePath: "Girl_tex.png
-				SubTexture: Array(7) [ {…}, {…}, {…}, … ]
-				0: Object { width: 479, y: 621, x: 1, … }
-				height: 400
-				name: "scarf.png"
-				width: 479
-				x: 1
-				y: 621
-			*/
 			rawData.imagePath = null;
 
 			textureAtlasData.width = ObjectDataParser._getNumber(rawData, dragonBones.DataParser.WIDTH, 0);
@@ -13754,8 +13741,8 @@ var dragonBones;
 
 					textureData.rotated = ObjectDataParser._getBoolean(rawTexture, dragonBones.DataParser.ROTATED, false);
 					textureData.name = ObjectDataParser._getString(rawTexture, dragonBones.DataParser.NAME, "");
-					textureData.region.x = 0; // ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.X, 0.0);
-					textureData.region.y = 0; //ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.Y, 0.0);
+					textureData.region.x = 0;
+					textureData.region.y = 0;
 					textureData.region.width = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.FRAME_WIDTH, 0.0);
 					textureData.region.height = ObjectDataParser._getNumber(rawTexture, dragonBones.DataParser.FRAME_HEIGHT, 0.0);
 
@@ -14752,11 +14739,13 @@ var dragonBones;
 		 * @language zh_CN
 		 */
 		BaseFactory.prototype.removeTextureAtlasData = function (name, disposeData) {
+			console.log({removing: name});
 			if (disposeData === void 0) { disposeData = true; }
 			if (name in this._textureAtlasDataMap) {
 				var textureAtlasDataList = this._textureAtlasDataMap[name];
 				if (disposeData) {
 					for (var _i = 0, textureAtlasDataList_1 = textureAtlasDataList; _i < textureAtlasDataList_1.length; _i++) {
+						console.log({removing: _i});
 						var textureAtlasData = textureAtlasDataList_1[_i];
 						this._dragonBones.bufferObject(textureAtlasData);
 					}
@@ -15245,7 +15234,6 @@ var dragonBones;
 			},
 			set: function (value) {
 				// called by ureAtlasData.renderTexture = textureAtlas; line: 15955
-
 				if (value) {
 					for (var k in this.textures) {
 						var textureData = this.textures[k];
@@ -15255,29 +15243,11 @@ var dragonBones;
 						// texture rendering
 						textureData.renderTexture = new PIXI.Texture(
 							value.customTextures[textureData.name],
-							new PIXI.Rectangle(
-								0, //textureData.region.x,
-								0, //textureData.region.y,
-								texture.orig.width, // textureData.region.width,
-								texture.orig.height//textureData.region.height
-							),
+							new PIXI.Rectangle(0, 0, texture.orig.width, texture.orig.height),
 							null,
-							// new PIXI.Rectangle(
-							// 	textureData.region.x,
-							// 	textureData.region.y,
-							// 	textureData.region.width,
-							// 	textureData.region.height
-							// ),
-							// new PIXI.Rectangle(
-							// 	0,
-							// 	0,
-							// 	textureData.region.width,
-							// 	textureData.region.height
-							// ),
 							null,
-							textureData.rotated // .d.ts bug
+							textureData.rotated
 						);
-						// console.log({[k]: textureData.renderTexture})
 					}
 				}
 				else {
