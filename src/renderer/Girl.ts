@@ -55,22 +55,39 @@ export default class Girl extends PIXI.Container {
 		) => {
 			console.log('Changing clothes...');
 
-			console.log({resources});
+			// not working (old texture is only removed)
+			// const replaced = this.factory.replaceSlotDisplay(
+			// 	null,//"",
+			// 	"Armature",
+			// 	null,//"scarf.png",
+			// 	// 'scarf2.png',
+			// 	resources['girl/sprites/scarf2.png'],
+			// 	this.armature.armature.getSlot("scarf.png")
+			// );
+			// console.log({replaced});
 
-			const replaced = this.factory.replaceSlotDisplay(
-				null,//"",
+			// this.armature.armature.getSlot('scarf.png').replaceTextureData(resources['girl/sprites/scarf2.png'], 0)
+			// this.factory._textureAtlasDataMap.Girl[0].textures["scarf.png"].renderTexture = resources['girl/sprites/scarf2.png'];
+
+
+			// console.log(this.armature.armature.getSlot("scarf.png"));
+			var slotdisplayslot = this.armature.armature.getSlot("scarf.png")._display._texture;
+			// This is my new texture from another DragonBones project
+			// var j = (this.factory as any)._getTextureData("upperArmour", "a_bluearmour_bk");
+
+			var copyslot = slotdisplayslot;
+			console.log({copyslot});
+			copyslot.texture = resources['girl/sprites/scarf2.png'].texture;
+
+			this.factory.replaceSlotDisplay(
+				null,
 				"Armature",
-				null,//"scarf.png",
-				// 'scarf2.png',
-				resources['girl/sprites/scarf2.png'],
+				null,
+				copyslot.name,
 				this.armature.armature.getSlot("scarf.png")
 			);
 
-			console.log({replaced});
-			// this.armature.armature.getSlot('scarf.png').replaceTextureData(resources['girl/sprites/scarf2.png'], 0)
-			// this.factory._textureAtlasDataMap.Girl[0].textures["scarf.png"].renderTexture = resources['girl/sprites/scarf2.png'];
 		});
-
 	}
 
 	public draw(clothes = {} as Record<string, string>, addChild = false) {

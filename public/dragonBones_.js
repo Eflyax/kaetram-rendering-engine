@@ -14922,7 +14922,14 @@ var dragonBones;
 		 * @version DragonBones 4.5
 		 * @language zh_CN
 		 */
-		BaseFactory.prototype.replaceSlotDisplay = function (dragonBonesName, armatureName, slotName, displayName, slot, displayIndex) {
+		BaseFactory.prototype.replaceSlotDisplay = function (
+			dragonBonesName,
+			armatureName,
+			slotName,
+			displayName,
+			slot,
+			displayIndex
+		) {
 			if (displayIndex === void 0) { displayIndex = -1; }
 			var armatureData = this.getArmatureData(armatureName, dragonBonesName || "");
 			console.log({armatureData});
