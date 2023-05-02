@@ -13,9 +13,11 @@ export default class Girl extends PIXI.Container {
 
 	constructor() {
 		super();
+		this.factory = new dragonBones.PixiFactory();
+
 		PIXI.loader.add('girl/dragonbones-export/Girl_ske.json');
 		PIXI.loader.add('girl/dragonbones-export/Girl_tex.json');
-		//
+
 		this.draw({
 			'body.png': 'girl/sprites/body.png',
 			'eyes-closed.png': 'girl/sprites/eyes-closed.png',
@@ -27,6 +29,50 @@ export default class Girl extends PIXI.Container {
 		});
 	}
 
+	public changeClothes(newClothes = {} as Record<string, string>) {
+		for (const boneName in newClothes) {
+			PIXI.loader.add(newClothes[boneName]);
+		}
+		// https://github.com/DragonBones/DragonBonesJS/blob/master/Egret/Demos/src/ReplaceSlotDisplay.ts
+		// Replace mesh's texture with display0002.
+		// this._factory.replaceSlotDisplay(
+		// 	"ReplaceSlotDisplay",
+		// 	"MyDisplay",
+		// 	"ball",
+		// 	"display0002",
+		// 	this._armatureDisplay.armature.getSlot("mesh")
+		// );
+
+		// factory.replaceSlotDisplay("dragonBonesName", "armatureName", "slotName", "displayName", slot);
+		// armatureName: 'Armature', dragonBonesName: ''
+
+		// console.log({scarf_slot: this.armature.armature.getSlot("scarf.png")});
+
+
+		PIXI.loader.once('complete', (
+			loader: PIXI.loaders.Loader,
+			resources: dragonBones.Map<PIXI.loaders.Resource>,
+		) => {
+			console.log('Changing clothes...');
+
+			console.log({resources});
+
+			const replaced = this.factory.replaceSlotDisplay(
+				null,//"",
+				"Armature",
+				null,//"scarf.png",
+				// 'scarf2.png',
+				resources['girl/sprites/scarf2.png'],
+				this.armature.armature.getSlot("scarf.png")
+			);
+
+			console.log({replaced});
+			// this.armature.armature.getSlot('scarf.png').replaceTextureData(resources['girl/sprites/scarf2.png'], 0)
+			// this.factory._textureAtlasDataMap.Girl[0].textures["scarf.png"].renderTexture = resources['girl/sprites/scarf2.png'];
+		});
+
+	}
+
 	public draw(clothes = {} as Record<string, string>, addChild = false) {
 		for (const boneName in clothes) {
 			PIXI.loader.add(clothes[boneName]);
@@ -36,19 +82,22 @@ export default class Girl extends PIXI.Container {
 			loader: PIXI.loaders.Loader,
 			resources: dragonBones.Map<PIXI.loaders.Resource>,
 		) => {
-			this.factory = new dragonBones.PixiFactory();
-			// animation has stopped after this :-(
-
-			if (this.armature) {
-				this.removeChild(this.armature);
-				this.factory.removeDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
-			}
-
-			this.factory.parseDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
-
 			const
 				atlasData = resources['girl/dragonbones-export/Girl_tex.json'].data,
 				atlasTextures = {} as Record<string, string>;
+
+			if (this.armature) {
+				console.log({currenAtmature: this.armature});
+
+				// this.factory.clear(); // still pause animation
+
+				console.log('Removing old data');
+				this.removeChild(this.armature);
+				this.factory.removeDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
+				// this.factory.removeTextureAtlasData(atlasData.data.name);
+			}
+
+			this.factory.parseDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
 
 			for (const boneName in clothes) {
 				atlasTextures[boneName] = resources[clothes[boneName]].texture
@@ -62,7 +111,6 @@ export default class Girl extends PIXI.Container {
 				atlasTextures
 			);
 
-			this.armature = null;
 			this.armature = this.factory.buildArmatureDisplay('Armature');
 			this.armature.scale.x = 0.1;
 			this.armature.scale.y = 0.1;

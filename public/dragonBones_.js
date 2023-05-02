@@ -3355,7 +3355,6 @@ var dragonBones;
 			// this.textures.clear();
 			for (var k in value.textures) {
 				var texture = this.createTexture();
-				console.log({kopiruji_textutu_z: value.textures[k]});
 				texture.copyFrom(value.textures[k]);
 				this.textures[k] = texture;
 			}
@@ -6119,7 +6118,9 @@ var dragonBones;
 			else if (index >= this._displayFrames.length) {
 				return;
 			}
+
 			var displayFrame = this._displayFrames[index];
+
 			if (displayFrame.textureData !== textureData) {
 				displayFrame.textureData = textureData;
 				if (index === this._displayIndex) {
@@ -14361,6 +14362,7 @@ var dragonBones;
 				}
 				slot._setDisplayIndex(slotData.displayIndex, true);
 			}
+
 		};
 		BaseFactory.prototype._buildConstraints = function (dataPackage, armature) {
 			var constraints = dataPackage.armature.constraints;
@@ -14923,10 +14925,14 @@ var dragonBones;
 		BaseFactory.prototype.replaceSlotDisplay = function (dragonBonesName, armatureName, slotName, displayName, slot, displayIndex) {
 			if (displayIndex === void 0) { displayIndex = -1; }
 			var armatureData = this.getArmatureData(armatureName, dragonBonesName || "");
+			console.log({armatureData});
+
 			if (armatureData === null || armatureData.defaultSkin === null) {
 				return false;
 			}
 			var displayData = armatureData.defaultSkin.getDisplay(slotName, displayName);
+
+
 			this.replaceDisplay(slot, displayData, displayIndex);
 			return true;
 		};
@@ -15669,6 +15675,11 @@ var dragonBones;
 						var scale = this._armature._armatureData.scale;
 						var meshDisplay = this._renderDisplay;
 
+						if (!currentTextureAtlasData) {
+							return;
+						}
+						// console.log({currentTextureAtlasData});
+
 						var textureAtlasWidth = currentTextureAtlasData.width > 0.0
 							? currentTextureAtlasData.width
 							: renderTexture.baseTexture.width;
@@ -15915,8 +15926,6 @@ var dragonBones;
 			configurable: true
 		});
 		PixiFactory.prototype._buildTextureAtlasData = function (textureAtlasData, textureAtlas) {
-			// console.log({global_textureAtlasData: textureAtlasData});
-
 			if (textureAtlasData) {
 				textureAtlasData.renderTexture = textureAtlas;
 			}
