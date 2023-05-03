@@ -3,7 +3,7 @@ html, body {
 }
 
 canvas {
-	border: 1px solid lime;
+	/* border: 1px solid lime; */
 	margin: 0 auto;
 	display: block;
 }

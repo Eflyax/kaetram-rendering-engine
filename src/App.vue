@@ -13,7 +13,7 @@ const onChangeScarf = () => {
 
 <template>
 	<div>
-		<button @click="onChangeScarf()">Change scarf</button>
+		<button @click="onChangeScarf()">Change</button>
 	</div>
 </template>
 
