@@ -1,8 +1,9 @@
 import Star from './Star';
+import Hand from './Hand';
 import Girl from './Girl';
 
 export class App extends PIXI.Application {
-    private girl: Girl;
+    private hand: Hand;
 
     // Girl is able to move inside this rectangle
     private moveArea: PIXI.Rectangle = new PIXI.Rectangle(0, 0, 900, 500);
@@ -20,11 +21,14 @@ export class App extends PIXI.Application {
             sharedLoader: true,
         });
 
-        this.girl = new Girl();
+        this.hand = new Hand();
+        this.hand.x = 100.0;
+        this.hand.y = 250.0;
+        this.stage.addChild(this.hand);
 
-        this.girl.x = 100.0;
+				this.girl = new Girl();
+        this.girl.x = 500.0;
         this.girl.y = 250.0;
-
         this.stage.addChild(this.girl);
 
         // Enable mouse controls
@@ -49,6 +53,7 @@ export class App extends PIXI.Application {
         // Add girl ticker to pixi application when loaded
         this.loader.once('complete', () => {
             this.ticker.add(deltaTime => this.girl.render(deltaTime));
+            this.ticker.add(deltaTime => this.hand.render(deltaTime));
         });
 
         // Load all assets
