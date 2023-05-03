@@ -1,5 +1,3 @@
-// export default class BaseDemo {}
-
 export default abstract class BaseDemo extends PIXI.Container {
     private static BACKGROUND_URL: string = "resource/background.png";
     protected readonly _renderer = new PIXI.WebGLRenderer(1136, 640);
@@ -32,9 +30,12 @@ export default abstract class BaseDemo extends PIXI.Container {
     }
 
     protected _loadResources(): void {
-        const binaryOptions = { loadType: PIXI.loaders.Resource.LOAD_TYPE.XHR, xhrType: PIXI.loaders.Resource.XHR_RESPONSE_TYPE.BUFFER };
+        const binaryOptions = {
+					loadType: PIXI.loaders.Resource.LOAD_TYPE.XHR,
+					xhrType: PIXI.loaders.Resource.XHR_RESPONSE_TYPE.BUFFER
+				};
 
-        for (const resource of this._resources) {
+				for (const resource of this._resources) {
             if (resource.indexOf("dbbin") > 0) {
                 PIXI.loader.add(resource, resource, binaryOptions as any);
             }

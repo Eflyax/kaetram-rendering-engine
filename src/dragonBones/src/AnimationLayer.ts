@@ -1,4 +1,6 @@
-class AnimationLayer extends BaseDemo {
+import BaseDemo from './BaseDemo.ts';
+
+export default class AnimationLayer extends BaseDemo {
     private _armatureDisplay: dragonBones.PixiArmatureDisplay;
 
     public constructor() {
