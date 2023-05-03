@@ -1,4 +1,6 @@
-class ReplaceSkin extends BaseDemo {
+import BaseDemo from './BaseDemo.ts';
+
+export default class ReplaceSkin extends BaseDemo {
     private _replaceSuitIndex: number = 0;
     private readonly _factory: dragonBones.PixiFactory = dragonBones.PixiFactory.factory;
     private readonly _suitConfigs: string[][] = [];

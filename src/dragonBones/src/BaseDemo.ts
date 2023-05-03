@@ -1,11 +1,13 @@
-abstract class BaseDemo extends PIXI.Container {
+// export default class BaseDemo {}
+
+export default abstract class BaseDemo extends PIXI.Container {
     private static BACKGROUND_URL: string = "resource/background.png";
     protected readonly _renderer = new PIXI.WebGLRenderer(1136, 640);
     protected readonly _background: PIXI.Sprite = new PIXI.Sprite(PIXI.Texture.EMPTY);
     protected readonly _resources: string[] = [];
     protected _pixiResources: dragonBones.Map<PIXI.loaders.Resource>;
 
-    public constructor() {
+    constructor() {
         super();
 
         this._renderer.backgroundColor = 0x666666;
