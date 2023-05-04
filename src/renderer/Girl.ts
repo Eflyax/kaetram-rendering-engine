@@ -2,6 +2,7 @@ export default class Girl extends PIXI.Container {
 	private armature: dragonBones.PixiArmatureDisplay;
 
 	private blinkingThread: number;
+	private iddleAnimationTimeout: number;
 
 	private walking: boolean = false;
 	private WALK_SPEED: number = 5;
@@ -11,99 +12,65 @@ export default class Girl extends PIXI.Container {
 
 	private factory;
 
-	private atlasData;
-	private atlasTextures;
-
-	constructor() {
+	constructor(skeletonData, texturesData, boneTextures) {
 		super();
 		this.factory = new dragonBones.PixiFactory();
 
-		PIXI.loader.add('girl/dragonbones-export/Girl_ske.json');
-		PIXI.loader.add('girl/dragonbones-export/Girl_tex.json');
+		const
+			atlasData = texturesData,
+			atlasTextures = {} as Record<string, string>;
 
-		this.draw({
-			'body.png': 'girl/sprites/body.png',
-			'eyes-closed.png': 'girl/sprites/eyes-closed.png',
-			'eyes-open.png': 'girl/sprites/eyes-open.png',
-			'head.png': 'girl/sprites/head.png',
-			'leg-left.png': 'girl/sprites/leg-left.png',
-			'leg-right.png': 'girl/sprites/leg-right.png',
-			'scarf.png': 'girl/sprites/scarf.png',
-		});
-	}
+		this.factory.parseDragonBonesData(skeletonData);
 
-	public changeClothes(newClothes = {} as Record<string, string>) {
-		for (const boneName in newClothes) {
-			console.log({adding: newClothes[boneName]});
-			PIXI.loader.add(newClothes[boneName]);
+		for (const boneName in boneTextures) {
+			atlasTextures[boneName] = PIXI.loader.resources[boneTextures[boneName]].texture
 		}
 
-		PIXI.loader.once('complete', (
-			loader: PIXI.loaders.Loader,
-			resources: dragonBones.Map<PIXI.loaders.Resource>,
-		) => {
-			console.log('Changing clothes...');
+		this.factory.parseTextureAtlasData(atlasData, {}, null, null, atlasTextures);
+		this.armature = this.factory.buildArmatureDisplay('Armature');
+		this.armature.scale.x = 0.1;
+		this.armature.scale.y = 0.1;
 
-			// todo - find slots by name => replace with resources .texture.baseTexture;
-			this.armature.armature._display.children[5]._texture.baseTexture = resources['girl/sprites/scarf2.png'].texture.baseTexture;
-		});
-	}
-
-	public draw(clothes = {} as Record<string, string>, addChild = false) {
-		for (const boneName in clothes) {
-			PIXI.loader.add(clothes[boneName]);
-		}
-
-		PIXI.loader.once('complete', (
-			loader: PIXI.loaders.Loader,
-			resources: dragonBones.Map<PIXI.loaders.Resource>,
-		) => {
-			const
-				atlasData = resources['girl/dragonbones-export/Girl_tex.json'].data,
-				atlasTextures = {} as Record<string, string>;
-
-			this.atlasData = atlasData;
-
-			// if (this.armature) {
-			// 	// this.factory.clear(); // still pause animation
-			// 	this.removeChild(this.armature);
-			// 	// this.factory.removeDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
-			// 	// this.factory.removeTextureAtlasData(atlasData.data.name);
-			// }
-
-			this.factory.parseDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
-
-			for (const boneName in clothes) {
-				atlasTextures[boneName] = resources[clothes[boneName]].texture
-			}
-
-			this.factory.parseTextureAtlasData(
-				atlasData,
-				{},
-				null,
-				null,
-				atlasTextures
-			);
-
-			this.atlasTextures = atlasTextures;
-
-			this.armature = this.factory.buildArmatureDisplay('Armature');
-			this.armature.scale.x = 0.1;
-			this.armature.scale.y = 0.1;
+		this.iddleAnimationTimeout = setTimeout(() => {
 			this.armature.animation.play('idle');
-			this.armature.animation.timeScale = 3;
-			this.startBlinking();
-			this.addChild(this.armature);
-		});
+			clearTimeout(this.iddleAnimationTimeout);
+		}, Math.floor(Math.random() * 30) * 10);
+
+		this.armature.animation.timeScale = 3;
+		this.startBlinking();
+		this.addChild(this.armature);
+	}
+
+	public changeClothes(newClothes = {} as Record<string, string>): void {
+		let waitForResourcesLoader = false;
+
+		for (const boneName in newClothes) {
+			if (!PIXI.loader.resources[newClothes[boneName]]) {
+				PIXI.loader.add(newClothes[boneName]);
+				waitForResourcesLoader = true;
+			}
+		}
+
+		if (waitForResourcesLoader) {
+			PIXI.loader.once('complete', () => this.setTextures(newClothes));
+		}
+		else {
+			this.setTextures(newClothes);
+		}
+	}
+
+	private setTextures(newClothes = {}): void {
+		for (const boneName in newClothes) {
+			const slot = this.armature.armature.getSlot(boneName);
+
+			slot._renderDisplay._texture.baseTexture = PIXI.loader.resources[newClothes[boneName]].texture.baseTexture;
+		}
 	}
 
 	public getArmature(): dragonBones.PixiArmatureDisplay {
 		return this.armature;
 	}
 
-	/**
-	 * Make eyes blinking asynchronously.
-	 */
 	public startBlinking(): void {
 		if (this.blinkingThread) {
 			return;
@@ -135,11 +102,6 @@ export default class Girl extends PIXI.Container {
 		this.armature.armature.getSlot('eyes').displayIndex = 1;
 	}
 
-	/**
-	 * Update target point,
-	 * and make Girl walk.
-	 * Girl position is real time updated in render().
-	 */
 	public moveTo(x: number, y: number): void {
 		this.targetX = x;
 		this.targetY = y;
@@ -150,11 +112,6 @@ export default class Girl extends PIXI.Container {
 		}
 	}
 
-	/**
-	 * As scene time is going,
-	 * make girl constantly follow target point.
-	 * Also switch between "play" and "idle" animations.
-	 */
 	public render(deltaTime: number): void {
 		if (!this.walking) {
 			return;
@@ -164,11 +121,13 @@ export default class Girl extends PIXI.Container {
 			const direction = this.x < this.targetX ? 1 : -1;
 
 			this.x += deltaTime * this.WALK_SPEED * direction;
-		} else if (Math.abs(this.y - this.targetY) > this.WALK_SPEED) {
+		}
+		else if (Math.abs(this.y - this.targetY) > this.WALK_SPEED) {
 			const direction = this.y < this.targetY ? 1 : -1;
 
 			this.y += deltaTime * this.WALK_SPEED * direction;
-		} else {
+		}
+		else {
 			this.x = this.targetX;
 			this.y = this.targetY;
 			this.armature.animation.play('idle');
