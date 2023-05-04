@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import Character from './dragonBones/src/Character.ts';
+// import Character from './dragonBones/src/Character.ts';
 
-new Character();
+// new Character();
+import { App } from './renderer/App';
+
+app = new App();
 
 const onChangeScarf = () => {
 };
