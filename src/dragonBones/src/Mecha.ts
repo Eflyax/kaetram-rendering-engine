@@ -1,5 +1,5 @@
 
-export default class Character extends PIXI.Container {
+export default class Mecha extends PIXI.Container {
 	private armature: dragonBones.PixiArmatureDisplay;
 
 	private blinkingThread: number;

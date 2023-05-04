@@ -1,6 +1,6 @@
 // import Star from './Star';
 // import Hand from './Hand';
-import Character from "../dragonBones/src/Character";
+import Mecha from "../dragonBones/src/Mecha";
 
 export class App extends PIXI.Application {
 
@@ -25,7 +25,7 @@ export class App extends PIXI.Application {
         // this.hand.y = 250.0;
         // this.stage.addChild(this.hand);
 
-				this.character = new Character();
+				this.character = new Mecha();
 
         this.character.x = 500.0;
         this.character.y = 250.0;
