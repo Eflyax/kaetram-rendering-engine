@@ -1,9 +1,8 @@
 <script setup lang="ts">
-// import Character from './dragonBones/src/Character.ts';
+// import AniationLayer from './dragonBones/src/AnimationLayer.ts';
+// app = new AniationLayer();
 
-// new Character();
 import { App } from './renderer/App';
-
 app = new App();
 
 const onChangeScarf = () => {
