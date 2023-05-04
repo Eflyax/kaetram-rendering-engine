@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import BaseDemo from './dragonBones/src/BaseDemo.ts';
-import skin from './dragonBones/src/AnimationLayer.ts';
-// const app  = new App.App();
-// console.log(PIXI)
-new skin()
+import Character from './dragonBones/src/Character.ts';
+
+new Character();
+
 const onChangeScarf = () => {
-	// app.girl.changeClothes({
-	// 	'scarf.png': 'girl/sprites/scarf2.png',
-	// });
 };
 
 </script>
