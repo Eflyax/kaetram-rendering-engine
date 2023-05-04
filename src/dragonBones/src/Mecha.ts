@@ -12,11 +12,6 @@ export default class Mecha extends PIXI.Container {
 
 	constructor() {
 			super();
-
-			// Import girl texture and armature data exported from Blender COA tools
-			// 		"resource/mecha_1004d/mecha_1004d_ske.json",
-			// 		"resource/mecha_1004d/mecha_1004d_tex.json",
-			// 		"resource/mecha_1004d/mecha_1004d_tex.png"
 			PIXI.loader.add('resource/mecha_1004d/mecha_1004d_ske.json');
 			PIXI.loader.add('resource/mecha_1004d/mecha_1004d_tex.json');
 			PIXI.loader.add('resource/mecha_1004d/mecha_1004d_tex.png');
@@ -25,7 +20,6 @@ export default class Mecha extends PIXI.Container {
 					loader: PIXI.loaders.Loader,
 					resources: dragonBones.Map<PIXI.loaders.Resource>,
 			) => {
-					// Parse and create Girl Armature
 					const factory = new dragonBones.PixiFactory();
 
 					factory.parseDragonBonesData(resources['resource/mecha_1004d/mecha_1004d_ske.json'].data);
@@ -37,29 +31,11 @@ export default class Mecha extends PIXI.Container {
 
 					this.armature = factory.buildArmatureDisplay('mecha_1004d');
 
-					// Resize girl
 					this.armature.scale.x = 1;
 					this.armature.scale.y = 1;
-
-					// Play idle at the beginning
 					this.armature.animation.play('idle');
-
-					// Play animation 5x faster
 					this.armature.animation.timeScale = 2;
-
-					// Make eyes blinking (see openEyes and closeEyes)
 					this.startBlinking();
-
-					const bonesToResources = {};
-
-					console.log(this.armature.armature);
-					// console.log({deti: this.armature.children});
-					// for(const key in this.armature.children) {
-					// 		const childSlot = this.armature.children[key];
-					// 		console.log({childSlotTe: childSlot._texture.baseTexture.imageUrl});
-					// 		// bonesToResources[key] = childSlot.
-					// }
-					// Add armature sprite to the scene
 					this.addChild(this.armature);
 			});
 	}
