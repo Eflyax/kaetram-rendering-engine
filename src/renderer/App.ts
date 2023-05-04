@@ -14,6 +14,8 @@ export class App extends PIXI.Application {
             sharedLoader: true,
         });
 
+			PIXI.loader.add('girl/sprites/head.png');
+
 			PIXI.loader.add('resource/mecha_1004d/mecha_1004d_ske.json');
 			PIXI.loader.add('resource/mecha_1004d/mecha_1004d_tex.json');
 			PIXI.loader.add('resource/mecha_1004d/mecha_1004d_tex.png');
@@ -29,7 +31,8 @@ export class App extends PIXI.Application {
 				this.mechaDemo = new Mecha(
 					resources['resource/mecha_1004d/mecha_1004d_ske.json'].data,
 					resources['resource/mecha_1004d/mecha_1004d_tex.json'].data,
-					resources['resource/mecha_1004d/mecha_1004d_tex.png'].texture
+					resources['resource/mecha_1004d/mecha_1004d_tex.png'].texture,
+					'DEMO'
 				);
 
         this.mechaDemo.x = 500.0;
@@ -39,7 +42,8 @@ export class App extends PIXI.Application {
 				this.mecha = new Mecha(
 					resources['resource/a/mecha_1004d_ske.json'].data,
 					resources['resource/a/mecha_1004d_tex.json'].data,
-					resources['resource/a/mecha_1004d_tex.png'].texture
+					resources['resource/a/mecha_1004d_tex.png'].texture,
+					'REEXP'
 				);
 
         this.mecha.x = 100.0;

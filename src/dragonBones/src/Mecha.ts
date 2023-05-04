@@ -13,10 +13,11 @@ export default class Mecha extends PIXI.Container {
 	constructor(
 		skeletonJsonData,
 		textureJsonData,
-		texture
+		texture,
+		name
 	) {
 			super();
-
+			this.name = name;
 			const factory = new dragonBones.PixiFactory();
 
 			factory.parseDragonBonesData(skeletonJsonData);
@@ -34,6 +35,10 @@ export default class Mecha extends PIXI.Container {
 			this.armature.animation.timeScale = 2;
 			this.startBlinking();
 			this.addChild(this.armature);
+
+			const slot = this.armature.armature.getSlot('pelvis')
+
+			slot._renderDisplay._texture.baseTexture = PIXI.loader.resources['girl/sprites/head.png'].texture.baseTexture;
 	}
 
 	public getArmature(): dragonBones.PixiArmatureDisplay {
