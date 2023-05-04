@@ -1,174 +1,174 @@
-export default class Hand extends PIXI.Container {
-	private armature: dragonBones.PixiArmatureDisplay;
-	private blinkingThread: number;
-	private walking: boolean = false;
-	private WALK_SPEED: number = 5;
-	private targetX: number;
-	private targetY: number;
-	private factory;
-	private atlasData;
-	private atlasTextures;
+// export default class Hand extends PIXI.Container {
+// 	private armature: dragonBones.PixiArmatureDisplay;
+// 	private blinkingThread: number;
+// 	private walking: boolean = false;
+// 	private WALK_SPEED: number = 5;
+// 	private targetX: number;
+// 	private targetY: number;
+// 	private factory;
+// 	private atlasData;
+// 	private atlasTextures;
 
-	constructor() {
-		super();
-		this.factory = new dragonBones.PixiFactory();
+// 	constructor() {
+// 		super();
+// 		this.factory = new dragonBones.PixiFactory();
 
-		// PIXI.loader.add('tryToImport/TryToImport_tex.json');
-		// PIXI.loader.add('tryToImport/TryToImport_ske.json');
-
-
-		PIXI.loader.add('girl/dragonbones-export/Girl_ske.json');
-		PIXI.loader.add('girl/dragonbones-export/Girl_tex.json');
+// 		// PIXI.loader.add('tryToImport/TryToImport_tex.json');
+// 		// PIXI.loader.add('tryToImport/TryToImport_ske.json');
 
 
-		this.draw({
-			'body.png': 'tryToImport/TryToImport_texture/MechArm_ARM.png',
-			'eyes-closed.png': 'tryToImport/TryToImport_texture/MechArm_FOREARM.png',
-			'eyes-open.png': 'tryToImport/TryToImport_texture/MechArm_HAND.png'
-		});
-	}
+// 		PIXI.loader.add('girl/dragonbones-export/Girl_ske.json');
+// 		PIXI.loader.add('girl/dragonbones-export/Girl_tex.json');
 
-	public changeClothes(newClothes = {} as Record<string, string>) {
-		for (const boneName in newClothes) {
-			console.log({adding: newClothes[boneName]});
-			PIXI.loader.add(newClothes[boneName]);
-		}
 
-		PIXI.loader.once('complete', (
-			loader: PIXI.loaders.Loader,
-			resources: dragonBones.Map<PIXI.loaders.Resource>,
-		) => {
-			console.log('Changing clothes...');
+// 		this.draw({
+// 			'body.png': 'tryToImport/TryToImport_texture/MechArm_ARM.png',
+// 			'eyes-closed.png': 'tryToImport/TryToImport_texture/MechArm_FOREARM.png',
+// 			'eyes-open.png': 'tryToImport/TryToImport_texture/MechArm_HAND.png'
+// 		});
+// 	}
 
-			// todo - find slots by name => replace with resources .texture.baseTexture;
-			this.armature.armature._display.children[5]._texture.baseTexture = resources['tryToImport/TryToImport_texture/scarf2.png'].texture.baseTexture;
-		});
-	}
+// 	public changeClothes(newClothes = {} as Record<string, string>) {
+// 		for (const boneName in newClothes) {
+// 			console.log({adding: newClothes[boneName]});
+// 			PIXI.loader.add(newClothes[boneName]);
+// 		}
 
-	public draw(clothes = {} as Record<string, string>, addChild = false) {
-		for (const boneName in clothes) {
-			PIXI.loader.add(clothes[boneName]);
-		}
+// 		PIXI.loader.once('complete', (
+// 			loader: PIXI.loaders.Loader,
+// 			resources: dragonBones.Map<PIXI.loaders.Resource>,
+// 		) => {
+// 			console.log('Changing clothes...');
 
-		PIXI.loader.once('complete', (
-			loader: PIXI.loaders.Loader,
-			resources: dragonBones.Map<PIXI.loaders.Resource>,
-		) => {
-			const
-				atlasData = resources['girl/dragonbones-export/Girl_tex.json'].data,
-				atlasTextures = {} as Record<string, string>;
+// 			// todo - find slots by name => replace with resources .texture.baseTexture;
+// 			this.armature.armature._display.children[5]._texture.baseTexture = resources['tryToImport/TryToImport_texture/scarf2.png'].texture.baseTexture;
+// 		});
+// 	}
 
-			this.atlasData = atlasData;
+// 	public draw(clothes = {} as Record<string, string>, addChild = false) {
+// 		for (const boneName in clothes) {
+// 			PIXI.loader.add(clothes[boneName]);
+// 		}
 
-			// if (this.armature) {
-			// 	// this.factory.clear(); // still pause animation
-			// 	this.removeChild(this.armature);
-			// 	// this.factory.removeDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
-			// 	// this.factory.removeTextureAtlasData(atlasData.data.name);
-			// }
+// 		PIXI.loader.once('complete', (
+// 			loader: PIXI.loaders.Loader,
+// 			resources: dragonBones.Map<PIXI.loaders.Resource>,
+// 		) => {
+// 			const
+// 				atlasData = resources['girl/dragonbones-export/Girl_tex.json'].data,
+// 				atlasTextures = {} as Record<string, string>;
 
-			this.factory.parseDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
+// 			this.atlasData = atlasData;
 
-			for (const boneName in clothes) {
-				atlasTextures[boneName] = resources[clothes[boneName]].texture
-			}
+// 			// if (this.armature) {
+// 			// 	// this.factory.clear(); // still pause animation
+// 			// 	this.removeChild(this.armature);
+// 			// 	// this.factory.removeDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
+// 			// 	// this.factory.removeTextureAtlasData(atlasData.data.name);
+// 			// }
 
-			this.factory.parseTextureAtlasData(
-				atlasData,
-				{},
-				null,
-				null,
-				atlasTextures
-			);
+// 			this.factory.parseDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
 
-			this.atlasTextures = atlasTextures;
+// 			for (const boneName in clothes) {
+// 				atlasTextures[boneName] = resources[clothes[boneName]].texture
+// 			}
 
-			this.armature = this.factory.buildArmatureDisplay('Armature');
-			this.armature.scale.x = 0.1;
-			this.armature.scale.y = 0.1;
-			this.armature.animation.play('idle');
-			this.armature.animation.timeScale = 3;
-			this.startBlinking();
-			this.addChild(this.armature);
-		});
-	}
+// 			this.factory.parseTextureAtlasData(
+// 				atlasData,
+// 				{},
+// 				null,
+// 				null,
+// 				atlasTextures
+// 			);
 
-	public getArmature(): dragonBones.PixiArmatureDisplay {
-		return this.armature;
-	}
+// 			this.atlasTextures = atlasTextures;
 
-	/**
-	 * Make eyes blinking asynchronously.
-	 */
-	public startBlinking(): void {
-		if (this.blinkingThread) {
-			return;
-		}
+// 			this.armature = this.factory.buildArmatureDisplay('Armature');
+// 			this.armature.scale.x = 0.1;
+// 			this.armature.scale.y = 0.1;
+// 			this.armature.animation.play('idle');
+// 			this.armature.animation.timeScale = 3;
+// 			this.startBlinking();
+// 			this.addChild(this.armature);
+// 		});
+// 	}
 
-		this.blinkingThread = window.setTimeout(() => {
-			this.closeEyes();
-			setTimeout(() => {
-				this.stopBlinking();
-				this.startBlinking();
-			}, 100);
-		}, Math.random() * 3000);
-	}
+// 	public getArmature(): dragonBones.PixiArmatureDisplay {
+// 		return this.armature;
+// 	}
 
-	public stopBlinking(): void {
-		if (!this.blinkingThread) {
-			return;
-		}
+// 	/**
+// 	 * Make eyes blinking asynchronously.
+// 	 */
+// 	public startBlinking(): void {
+// 		if (this.blinkingThread) {
+// 			return;
+// 		}
 
-		this.openEyes();
-		this.blinkingThread = undefined;
-	}
+// 		this.blinkingThread = window.setTimeout(() => {
+// 			this.closeEyes();
+// 			setTimeout(() => {
+// 				this.stopBlinking();
+// 				this.startBlinking();
+// 			}, 100);
+// 		}, Math.random() * 3000);
+// 	}
 
-	public openEyes(): void {
-		this.armature.armature.getSlot('eyes').displayIndex = 0;
-	}
+// 	public stopBlinking(): void {
+// 		if (!this.blinkingThread) {
+// 			return;
+// 		}
 
-	public closeEyes(): void {
-		this.armature.armature.getSlot('eyes').displayIndex = 1;
-	}
+// 		this.openEyes();
+// 		this.blinkingThread = undefined;
+// 	}
 
-	/**
-	 * Update target point,
-	 * and make Girl walk.
-	 * Girl position is real time updated in render().
-	 */
-	public moveTo(x: number, y: number): void {
-		this.targetX = x;
-		this.targetY = y;
+// 	public openEyes(): void {
+// 		this.armature.armature.getSlot('eyes').displayIndex = 0;
+// 	}
 
-		if (!this.walking) {
-			this.armature.animation.play('walk');
-			this.walking = true;
-		}
-	}
+// 	public closeEyes(): void {
+// 		this.armature.armature.getSlot('eyes').displayIndex = 1;
+// 	}
 
-	/**
-	 * As scene time is going,
-	 * make girl constantly follow target point.
-	 * Also switch between "play" and "idle" animations.
-	 */
-	public render(deltaTime: number): void {
-		if (!this.walking) {
-			return;
-		}
+// 	/**
+// 	 * Update target point,
+// 	 * and make Girl walk.
+// 	 * Girl position is real time updated in render().
+// 	 */
+// 	public moveTo(x: number, y: number): void {
+// 		this.targetX = x;
+// 		this.targetY = y;
 
-		if (Math.abs(this.x - this.targetX) > this.WALK_SPEED) {
-			const direction = this.x < this.targetX ? 1 : -1;
+// 		if (!this.walking) {
+// 			this.armature.animation.play('walk');
+// 			this.walking = true;
+// 		}
+// 	}
 
-			this.x += deltaTime * this.WALK_SPEED * direction;
-		} else if (Math.abs(this.y - this.targetY) > this.WALK_SPEED) {
-			const direction = this.y < this.targetY ? 1 : -1;
+// 	/**
+// 	 * As scene time is going,
+// 	 * make girl constantly follow target point.
+// 	 * Also switch between "play" and "idle" animations.
+// 	 */
+// 	public render(deltaTime: number): void {
+// 		if (!this.walking) {
+// 			return;
+// 		}
 
-			this.y += deltaTime * this.WALK_SPEED * direction;
-		} else {
-			this.x = this.targetX;
-			this.y = this.targetY;
-			this.armature.animation.play('idle');
-			this.walking = false;
-		}
-	}
-}
+// 		if (Math.abs(this.x - this.targetX) > this.WALK_SPEED) {
+// 			const direction = this.x < this.targetX ? 1 : -1;
+
+// 			this.x += deltaTime * this.WALK_SPEED * direction;
+// 		} else if (Math.abs(this.y - this.targetY) > this.WALK_SPEED) {
+// 			const direction = this.y < this.targetY ? 1 : -1;
+
+// 			this.y += deltaTime * this.WALK_SPEED * direction;
+// 		} else {
+// 			this.x = this.targetX;
+// 			this.y = this.targetY;
+// 			this.armature.animation.play('idle');
+// 			this.walking = false;
+// 		}
+// 	}
+// }

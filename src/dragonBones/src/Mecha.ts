@@ -10,34 +10,30 @@ export default class Mecha extends PIXI.Container {
 	private targetX: number;
 	private targetY: number;
 
-	constructor() {
+	constructor(
+		skeletonJsonData,
+		textureJsonData,
+		texture
+	) {
 			super();
-			PIXI.loader.add('resource/mecha_1004d/mecha_1004d_ske.json');
-			PIXI.loader.add('resource/mecha_1004d/mecha_1004d_tex.json');
-			PIXI.loader.add('resource/mecha_1004d/mecha_1004d_tex.png');
 
-			PIXI.loader.once('complete', (
-					loader: PIXI.loaders.Loader,
-					resources: dragonBones.Map<PIXI.loaders.Resource>,
-			) => {
-					const factory = new dragonBones.PixiFactory();
+			const factory = new dragonBones.PixiFactory();
 
-					factory.parseDragonBonesData(resources['resource/mecha_1004d/mecha_1004d_ske.json'].data);
+			factory.parseDragonBonesData(skeletonJsonData);
 
-					factory.parseTextureAtlasData(
-							resources['resource/mecha_1004d/mecha_1004d_tex.json'].data,
-							resources['resource/mecha_1004d/mecha_1004d_tex.png'].texture,
-					);
+			factory.parseTextureAtlasData(
+					textureJsonData,
+					texture,
+			);
 
-					this.armature = factory.buildArmatureDisplay('mecha_1004d');
+			this.armature = factory.buildArmatureDisplay('mecha_1004d');
 
-					this.armature.scale.x = 1;
-					this.armature.scale.y = 1;
-					this.armature.animation.play('idle');
-					this.armature.animation.timeScale = 2;
-					this.startBlinking();
-					this.addChild(this.armature);
-			});
+			this.armature.scale.x = 1;
+			this.armature.scale.y = 1;
+			this.armature.animation.play('idle');
+			this.armature.animation.timeScale = 2;
+			this.startBlinking();
+			this.addChild(this.armature);
 	}
 
 	public getArmature(): dragonBones.PixiArmatureDisplay {
