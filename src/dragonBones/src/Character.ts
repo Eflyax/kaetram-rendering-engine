@@ -14,9 +14,12 @@ export default class Character extends PIXI.Container {
 			super();
 
 			// Import girl texture and armature data exported from Blender COA tools
-			PIXI.loader.add('girl/dragonbones-export/Girl_ske.json');
-			PIXI.loader.add('girl/dragonbones-export/Girl_tex.json');
-			PIXI.loader.add('girl/dragonbones-export/Girl_tex.png');
+			// 		"resource/mecha_1004d/mecha_1004d_ske.json",
+			// 		"resource/mecha_1004d/mecha_1004d_tex.json",
+			// 		"resource/mecha_1004d/mecha_1004d_tex.png"
+			PIXI.loader.add('resource/mecha_1004d/mecha_1004d_ske.json');
+			PIXI.loader.add('resource/mecha_1004d/mecha_1004d_tex.json');
+			PIXI.loader.add('resource/mecha_1004d/mecha_1004d_tex.png');
 
 			PIXI.loader.once('complete', (
 					loader: PIXI.loaders.Loader,
@@ -25,18 +28,19 @@ export default class Character extends PIXI.Container {
 					// Parse and create Girl Armature
 					const factory = new dragonBones.PixiFactory();
 
-					factory.parseDragonBonesData(resources['girl/dragonbones-export/Girl_ske.json'].data);
+					factory.parseDragonBonesData(resources['resource/mecha_1004d/mecha_1004d_ske.json'].data);
 
 					factory.parseTextureAtlasData(
-							resources['girl/dragonbones-export/Girl_tex.json'].data,
-							resources['girl/dragonbones-export/Girl_tex.png'].texture,
+							resources['resource/mecha_1004d/mecha_1004d_tex.json'].data,
+							resources['resource/mecha_1004d/mecha_1004d_tex.png'].texture,
 					);
 
-					this.armature = factory.buildArmatureDisplay('Armature');
+					this.armature = factory.buildArmatureDisplay('mecha_1004d');
+					console.log(this.armature)
 
 					// Resize girl
-					this.armature.scale.x = 0.1;
-					this.armature.scale.y = 0.1;
+					this.armature.scale.x = 1;
+					this.armature.scale.y = 1;
 
 					// Play idle at the beginning
 					this.armature.animation.play('idle');
@@ -83,11 +87,11 @@ export default class Character extends PIXI.Container {
 	}
 
 	public openEyes(): void {
-			this.armature.armature.getSlot('eyes').displayIndex = 0;
+			// this.armature.armature.getSlot('eyes').displayIndex = 0;
 	}
 
 	public closeEyes(): void {
-			this.armature.armature.getSlot('eyes').displayIndex = 1;
+			// this.armature.armature.getSlot('eyes').displayIndex = 1;
 	}
 
 	/**

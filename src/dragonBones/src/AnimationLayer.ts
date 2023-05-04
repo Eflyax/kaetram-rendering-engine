@@ -32,7 +32,7 @@ export default class AnimationLayer extends BaseDemo {
 				this._pixiResources[PATH_TEX_PNG].texture
 			);
 
-			this._armatureDisplay = factory.buildArmatureDisplay("Armature");
+			this._armatureDisplay = factory.buildArmatureDisplay("mecha_1004d");
 			// this._armatureDisplay.on(dragonBones.EventObject.LOOP_COMPLETE, this._animationEventHandler, this);
 			// this._armatureDisplay.animation.play("walk");
 
