@@ -36,7 +36,6 @@ export default class Character extends PIXI.Container {
 					);
 
 					this.armature = factory.buildArmatureDisplay('mecha_1004d');
-					console.log(this.armature)
 
 					// Resize girl
 					this.armature.scale.x = 1;
@@ -46,11 +45,20 @@ export default class Character extends PIXI.Container {
 					this.armature.animation.play('idle');
 
 					// Play animation 5x faster
-					this.armature.animation.timeScale = 5;
+					this.armature.animation.timeScale = 2;
 
 					// Make eyes blinking (see openEyes and closeEyes)
 					this.startBlinking();
 
+					const bonesToResources = {};
+
+					console.log(this.armature.armature);
+					// console.log({deti: this.armature.children});
+					// for(const key in this.armature.children) {
+					// 		const childSlot = this.armature.children[key];
+					// 		console.log({childSlotTe: childSlot._texture.baseTexture.imageUrl});
+					// 		// bonesToResources[key] = childSlot.
+					// }
 					// Add armature sprite to the scene
 					this.addChild(this.armature);
 			});

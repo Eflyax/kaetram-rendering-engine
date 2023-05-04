@@ -95,11 +95,11 @@ export default class Girl extends PIXI.Container {
 	}
 
 	public openEyes(): void {
-		this.armature.armature.getSlot('eyes').displayIndex = 0;
+		// this.armature.armature.getSlot('eyes').displayIndex = 0;
 	}
 
 	public closeEyes(): void {
-		this.armature.armature.getSlot('eyes').displayIndex = 1;
+		// this.armature.armature.getSlot('eyes').displayIndex = 1;
 	}
 
 	public moveTo(x: number, y: number): void {

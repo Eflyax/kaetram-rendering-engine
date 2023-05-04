@@ -26,6 +26,7 @@ export class App extends PIXI.Application {
         // this.stage.addChild(this.hand);
 
 				this.character = new Character();
+
         this.character.x = 500.0;
         this.character.y = 250.0;
         this.stage.addChild(this.character);
