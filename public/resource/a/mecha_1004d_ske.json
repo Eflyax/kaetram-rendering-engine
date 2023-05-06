@@ -1,6 +1,6 @@
 {
 	"frameRate": 25,
-	"name": "mecha_1004d",
+	"name": "mecha_1004d_ske",
 	"version": "5.5",
 	"compatibleVersion": "5.5",
 	"armature": [
@@ -9,9 +9,9 @@
 			"frameRate": 25,
 			"name": "mecha_1004d",
 			"aabb": {
-				"x": -232.77,
+				"x": -232.76,
 				"y": -275.91,
-				"width": 464.76,
+				"width": 464.75,
 				"height": 315.24
 			},
 			"bone": [
@@ -351,129 +351,44 @@
 			],
 			"skin": [
 				{
-					"name": "",
 					"slot": [
 						{
-							"name": "foot_r",
+							"name": "hand_r",
 							"display": [
 								{
-									"name": "mecha_1004d_folder/textures/foot_r_0",
+									"name": "mecha_1004d_folder/textures/hand_r_2",
 									"transform": {
-										"x": 9.3,
-										"y": 2.05,
-										"scX": 1.1693,
-										"scY": 1.1693
+										"x": 8.5,
+										"y": -4.5
 									}
 								},
 								{
-									"name": "mecha_1004d_folder/textures/foot_r_1",
+									"name": "mecha_1004d_folder/textures/hand_r_1",
 									"transform": {
-										"x": 7.55,
-										"y": 1.45,
-										"scX": 1.1693,
-										"scY": 1.1693
+										"x": 9.95,
+										"y": -4.95
+									}
+								},
+								{
+									"name": "mecha_1004d_folder/textures/hand_r_3",
+									"transform": {
+										"x": 11.5,
+										"y": -3.45
 									}
 								}
 							]
 						},
 						{
-							"name": "thigh_r",
+							"name": "thigh_l",
 							"display": [
 								{
-									"name": "mecha_1004d_folder/textures/thigh_r_0",
+									"name": "mecha_1004d_folder/textures/thigh_l_0",
 									"transform": {
-										"x": 8,
-										"y": 2,
-										"skX": -0.32,
-										"skY": -0.32
-									}
-								},
-								{
-									"name": "mecha_1004d_folder/textures/thigh_r_1",
-									"transform": {
-										"x": 7.95,
-										"y": 3.45,
-										"skX": -0.32,
-										"skY": -0.32
-									}
-								}
-							]
-						},
-						{
-							"name": "weapon_hand_r",
-							"display": [
-								{
-									"type": "armature",
-									"name": "weapon_replace"
-								},
-								{
-									"type": "armature",
-									"name": "weapon_replace",
-									"transform": {
-										"x": -59.15,
-										"y": 4.25
-									}
-								},
-								{
-									"type": "armature",
-									"name": "weapon_replace",
-									"transform": {
-										"x": -53.45,
-										"y": 15.35
-									}
-								}
-							]
-						},
-						{
-							"name": "shouder_l",
-							"display": [
-								{
-									"name": "mecha_1004d_folder/textures/shouder_l_1",
-									"transform": {
-										"x": 2.5,
-										"y": 0.4,
+										"x": 7.45,
+										"y": 1.9,
 										"skX": -0.4,
 										"skY": -0.4
 									}
-								},
-								{
-									"name": "mecha_1004d_folder/textures/shouder_l_2",
-									"transform": {
-										"x": 3.4,
-										"skX": -0.4,
-										"skY": -0.4
-									}
-								},
-								{
-									"name": "mecha_1004d_folder/textures/shouder_l_0",
-									"transform": {
-										"x": 5.95,
-										"y": 0.45,
-										"skX": -0.4,
-										"skY": -0.4
-									}
-								}
-							]
-						},
-						{
-							"name": "weapon_hand_l",
-							"display": [
-								{
-									"type": "armature",
-									"name": "weapon_replace"
-								}
-							]
-						},
-						{
-							"name": "effect_r",
-							"display": [
-								{
-									"type": "armature",
-									"name": "we_bl_4"
-								},
-								{
-									"type": "armature",
-									"name": "we_bl_5"
 								}
 							]
 						},
@@ -519,28 +434,68 @@
 							]
 						},
 						{
-							"name": "calf_l",
+							"name": "effect_l",
 							"display": [
 								{
-									"name": "mecha_1004d_folder/textures/calf_l_0",
+									"type": "armature",
+									"name": "we_bl_4"
+								}
+							]
+						},
+						{
+							"name": "calf_r",
+							"display": [
+								{
+									"name": "mecha_1004d_folder/textures/calf_r_0",
 									"transform": {
-										"x": 24.35,
-										"y": 2.65,
-										"skX": -0.71,
-										"skY": -0.71,
-										"scX": 1.3158,
-										"scY": 1.3158
+										"x": 30.35,
+										"y": 2.2,
+										"skX": 0.05,
+										"skY": 0.05,
+										"scX": 1.2105,
+										"scY": 1.2105
 									}
 								},
 								{
-									"name": "mecha_1004d_folder/textures/calf_l_1",
+									"name": "mecha_1004d_folder/textures/calf_r_1",
 									"transform": {
-										"x": 28.9,
-										"y": 2.55,
-										"skX": -0.71,
-										"skY": -0.71,
-										"scX": 1.3158,
-										"scY": 1.3158
+										"x": 27.9,
+										"y": 3.5,
+										"skX": 0.05,
+										"skY": 0.05,
+										"scX": 1.2105,
+										"scY": 1.2105
+									}
+								}
+							]
+						},
+						{
+							"name": "shouder_l",
+							"display": [
+								{
+									"name": "mecha_1004d_folder/textures/shouder_l_1",
+									"transform": {
+										"x": 2.5,
+										"y": 0.4,
+										"skX": -0.4,
+										"skY": -0.4
+									}
+								},
+								{
+									"name": "mecha_1004d_folder/textures/shouder_l_2",
+									"transform": {
+										"x": 3.4,
+										"skX": -0.4,
+										"skY": -0.4
+									}
+								},
+								{
+									"name": "mecha_1004d_folder/textures/shouder_l_0",
+									"transform": {
+										"x": 5.95,
+										"y": 0.45,
+										"skX": -0.4,
+										"skY": -0.4
 									}
 								}
 							]
@@ -587,28 +542,90 @@
 							]
 						},
 						{
-							"name": "calf_r",
+							"name": "forearm_r",
 							"display": [
 								{
-									"name": "mecha_1004d_folder/textures/calf_r_0",
+									"name": "mecha_1004d_folder/textures/forearm_r_3",
 									"transform": {
-										"x": 30.35,
-										"y": 2.2,
-										"skX": 0.05,
-										"skY": 0.05,
-										"scX": 1.2105,
-										"scY": 1.2105
+										"x": 23,
+										"y": 6.4,
+										"skX": -0.19,
+										"skY": -0.19
 									}
 								},
 								{
-									"name": "mecha_1004d_folder/textures/calf_r_1",
+									"name": "mecha_1004d_folder/textures/forearm_r_2",
 									"transform": {
-										"x": 27.9,
-										"y": 3.5,
-										"skX": 0.05,
-										"skY": 0.05,
-										"scX": 1.2105,
-										"scY": 1.2105
+										"x": 21.45,
+										"y": 5.8,
+										"skX": -0.19,
+										"skY": -0.19
+									}
+								}
+							]
+						},
+						{
+							"name": "calf_l",
+							"display": [
+								{
+									"name": "mecha_1004d_folder/textures/calf_l_0",
+									"transform": {
+										"x": 24.35,
+										"y": 2.65,
+										"skX": -0.71,
+										"skY": -0.71,
+										"scX": 1.3158,
+										"scY": 1.3158
+									}
+								},
+								{
+									"name": "mecha_1004d_folder/textures/calf_l_1",
+									"transform": {
+										"x": 28.9,
+										"y": 2.55,
+										"skX": -0.71,
+										"skY": -0.71,
+										"scX": 1.3158,
+										"scY": 1.3158
+									}
+								}
+							]
+						},
+						{
+							"name": "weapon_hand_r",
+							"display": [
+								{
+									"type": "armature",
+									"name": "weapon_replace"
+								},
+								{
+									"type": "armature",
+									"name": "weapon_replace",
+									"transform": {
+										"x": -59.15,
+										"y": 4.25
+									}
+								},
+								{
+									"type": "armature",
+									"name": "weapon_replace",
+									"transform": {
+										"x": -53.45,
+										"y": 15.35
+									}
+								}
+							]
+						},
+						{
+							"name": "foot_l",
+							"display": [
+								{
+									"name": "mecha_1004d_folder/textures/foot_l_0",
+									"transform": {
+										"x": 2.5,
+										"y": 0.35,
+										"scX": 1.1959,
+										"scY": 1.1959
 									}
 								}
 							]
@@ -646,59 +663,101 @@
 							]
 						},
 						{
-							"name": "effect_l",
+							"name": "thigh_r",
+							"display": [
+								{
+									"name": "mecha_1004d_folder/textures/thigh_r_0",
+									"transform": {
+										"x": 8,
+										"y": 2,
+										"skX": -0.32,
+										"skY": -0.32
+									}
+								},
+								{
+									"name": "mecha_1004d_folder/textures/thigh_r_1",
+									"transform": {
+										"x": 7.95,
+										"y": 3.45,
+										"skX": -0.32,
+										"skY": -0.32
+									}
+								}
+							]
+						},
+						{
+							"name": "weapon_hand_l",
+							"display": [
+								{
+									"type": "armature",
+									"name": "weapon_replace"
+								}
+							]
+						},
+						{
+							"name": "foot_r",
+							"display": [
+								{
+									"name": "mecha_1004d_folder/textures/foot_r_0",
+									"transform": {
+										"x": 9.3,
+										"y": 2.05,
+										"scX": 1.1693,
+										"scY": 1.1693
+									}
+								},
+								{
+									"name": "mecha_1004d_folder/textures/foot_r_1",
+									"transform": {
+										"x": 7.55,
+										"y": 1.45,
+										"scX": 1.1693,
+										"scY": 1.1693
+									}
+								}
+							]
+						},
+						{
+							"name": "effect_r",
 							"display": [
 								{
 									"type": "armature",
 									"name": "we_bl_4"
+								},
+								{
+									"type": "armature",
+									"name": "we_bl_5"
 								}
 							]
 						},
 						{
-							"name": "hand_r",
+							"name": "pelvis",
 							"display": [
 								{
-									"name": "mecha_1004d_folder/textures/hand_r_2",
+									"name": "mecha_1004d_folder/textures/pelvis_0",
 									"transform": {
-										"x": 8.5,
-										"y": -4.5
+										"x": -7.75,
+										"y": -3,
+										"skX": 3.86,
+										"skY": 3.86
 									}
 								},
 								{
-									"name": "mecha_1004d_folder/textures/hand_r_1",
+									"name": "mecha_1004d_folder/textures/pelvis_1",
 									"transform": {
-										"x": 9.95,
-										"y": -4.95
+										"x": -7,
+										"y": 0.95,
+										"skX": 3.86,
+										"skY": 3.86
 									}
 								},
 								{
-									"name": "mecha_1004d_folder/textures/hand_r_3",
+									"name": "mecha_1004d_folder/textures/pelvis_3",
 									"transform": {
-										"x": 11.5,
-										"y": -3.45
-									}
-								}
-							]
-						},
-						{
-							"name": "forearm_r",
-							"display": [
-								{
-									"name": "mecha_1004d_folder/textures/forearm_r_3",
-									"transform": {
-										"x": 23,
-										"y": 6.4,
-										"skX": -0.19,
-										"skY": -0.19
-									}
-								},
-								{
-									"name": "mecha_1004d_folder/textures/forearm_r_2",
-									"transform": {
-										"x": 21.45,
-										"y": 5.8,
-										"skX": -0.19,
-										"skY": -0.19
+										"x": -3.9,
+										"y": -1.25,
+										"skX": 3.86,
+										"skY": 3.86
 									}
 								}
 							]
@@ -731,66 +790,6 @@
 										"y": 1.55,
 										"skX": 0.59,
 										"skY": 0.59
-									}
-								}
-							]
-						},
-						{
-							"name": "thigh_l",
-							"display": [
-								{
-									"name": "mecha_1004d_folder/textures/thigh_l_0",
-									"transform": {
-										"x": 7.45,
-										"y": 1.9,
-										"skX": -0.4,
-										"skY": -0.4
-									}
-								}
-							]
-						},
-						{
-							"name": "foot_l",
-							"display": [
-								{
-									"name": "mecha_1004d_folder/textures/foot_l_0",
-									"transform": {
-										"x": 2.5,
-										"y": 0.35,
-										"scX": 1.1959,
-										"scY": 1.1959
-									}
-								}
-							]
-						},
-						{
-							"name": "pelvis",
-							"display": [
-								{
-									"name": "mecha_1004d_folder/textures/pelvis_0",
-									"transform": {
-										"x": -7.75,
-										"y": -3,
-										"skX": 3.86,
-										"skY": 3.86
-									}
-								},
-								{
-									"name": "mecha_1004d_folder/textures/pelvis_1",
-									"transform": {
-										"x": -7,
-										"y": 0.95,
-										"skX": 3.86,
-										"skY": 3.86
-									}
-								},
-								{
-									"name": "mecha_1004d_folder/textures/pelvis_3",
-									"transform": {
-										"x": -3.9,
-										"y": -1.25,
-										"skX": 3.86,
-										"skY": 3.86
 									}
 								}
 							]
@@ -24055,7 +24054,6 @@
 			],
 			"skin": [
 				{
-					"name": "",
 					"slot": [
 						{
 							"name": "b",
@@ -24160,7 +24158,6 @@
 			],
 			"skin": [
 				{
-					"name": "",
 					"slot": [
 						{
 							"name": "b",
@@ -24269,7 +24266,6 @@
 			],
 			"skin": [
 				{
-					"name": "",
 					"slot": [
 						{
 							"name": "b",
