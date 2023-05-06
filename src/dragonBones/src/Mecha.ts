@@ -1,12 +1,9 @@
-
 export default class Mecha extends PIXI.Container {
+
 	private armature: dragonBones.PixiArmatureDisplay;
-
 	private blinkingThread: number;
-
 	private walking: boolean = false;
 	private WALK_SPEED: number = 5;
-
 	private targetX: number;
 	private targetY: number;
 
@@ -42,12 +39,9 @@ export default class Mecha extends PIXI.Container {
 	}
 
 	public getArmature(): dragonBones.PixiArmatureDisplay {
-			return this.armature;
+		return this.armature;
 	}
 
-	/**
-	 * Make eyes blinking asynchronously.
-	 */
 	public startBlinking(): void {
 			if (this.blinkingThread) {
 					return;
@@ -63,27 +57,22 @@ export default class Mecha extends PIXI.Container {
 	}
 
 	public stopBlinking(): void {
-			if (!this.blinkingThread) {
-					return;
-			}
+		if (!this.blinkingThread) {
+				return;
+		}
 
-			this.openEyes();
-			this.blinkingThread = undefined;
+		this.openEyes();
+		this.blinkingThread = undefined;
 	}
 
 	public openEyes(): void {
-			// this.armature.armature.getSlot('eyes').displayIndex = 0;
+		// this.armature.armature.getSlot('eyes').displayIndex = 0;
 	}
 
 	public closeEyes(): void {
 			// this.armature.armature.getSlot('eyes').displayIndex = 1;
 	}
 
-	/**
-	 * Update target point,
-	 * and make Girl walk.
-	 * Girl position is real time updated in render().
-	 */
 	public moveTo(x: number, y: number): void {
 			this.targetX = x;
 			this.targetY = y;
@@ -94,11 +83,6 @@ export default class Mecha extends PIXI.Container {
 			}
 	}
 
-	/**
-	 * As scene time is going,
-	 * make girl constantly follow target point.
-	 * Also switch between "play" and "idle" animations.
-	 */
 	public render(deltaTime: number): void {
 			if (!this.walking) {
 					return;
