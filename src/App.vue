@@ -1,13 +1,15 @@
 <script setup lang="ts">
-// import AniationLayer from './dragonBones/src/AnimationLayer.ts';
-// app = new AniationLayer();
+import {App} from './renderer/App';
 
-import { App } from './renderer/App';
 app = new App();
 
 const onChangeScarf = () => {
-};
+	const boneNameToTexture = {
+		'pelvis': 'girl/sprites/head.png'
+	};
 
+	app.changeTexture(boneNameToTexture);
+};
 </script>
 
 <template>
