@@ -6,7 +6,7 @@ export class App extends PIXI.Application {
 
 	constructor() {
 		super({
-			width: 800,
+			width: 1200,
 			height: 600,
 			backgroundColor: 0x000000,
 			autoStart: true,
@@ -27,16 +27,16 @@ export class App extends PIXI.Application {
 			loader: PIXI.loaders.Loader,
 			resources: dragonBones.Map<PIXI.loaders.Resource>,
 		) => {
-		this.mechaDemo = new Mecha(
-			resources['resource/mecha_1004d/mecha_1004d_ske.json'].data,
-			resources['resource/mecha_1004d/mecha_1004d_tex.json'].data,
-			resources['resource/mecha_1004d/mecha_1004d_tex.png'].texture,
-			'DEMO',
-			'mecha_1004d'
-		);
-		this.mechaDemo.x = 500.0;
-		this.mechaDemo.y = 250.0;
-		this.stage.addChild(this.mechaDemo);
+		// this.mechaDemo = new Mecha(
+		// 	resources['resource/mecha_1004d/mecha_1004d_ske.json'].data,
+		// 	resources['resource/mecha_1004d/mecha_1004d_tex.json'].data,
+		// 	resources['resource/mecha_1004d/mecha_1004d_tex.png'].texture,
+		// 	'DEMO',
+		// 	'mecha_1004d'
+		// );
+		// this.mechaDemo.x = 500.0;
+		// this.mechaDemo.y = 250.0;
+		// this.stage.addChild(this.mechaDemo);
 		//
 		//
 		//
@@ -52,7 +52,6 @@ export class App extends PIXI.Application {
 		this.stage.addChild(this.mecha);
 		});
 
-		// Enable mouse controls
 		this.stage.interactive = true;
 		this.stage.hitArea = this.screen;
 		this.stage.on('touchstart', this.touchHandler, this);
@@ -67,24 +66,21 @@ export class App extends PIXI.Application {
 		document.body.appendChild(this.view);
 
 		this.loader.once('complete', () => {
-			this.ticker.add(deltaTime => this.mechaDemo.render(deltaTime));
-			// this.ticker.add(deltaTime => this.hand.render(deltaTime));
+			this.ticker.add(deltaTime => this.mecha.render(deltaTime));
 		});
 
 		this.loader.load();
 	}
 
-	public changeTexture() {
-		this.mecha.changeTexture({
-			'pelvis': 'girl/sprites/head.png'
-		})
+	public changeTexture(boneNameToTexture) {
+		this.mecha.changeTexture(boneNameToTexture)
 	}
 
 	private touchHandler(event: PIXI.interaction.InteractionEvent): void {
 		const x = Math.min(Math.max(event.data.global.x, this.moveArea.left), this.moveArea.right);
 		const y = Math.min(Math.max(event.data.global.y, this.moveArea.top), this.moveArea.bottom);
 
-		this.mechaDemo.moveTo(x, y);
+		this.mecha.goTo(x, y);
 	}
 }
 

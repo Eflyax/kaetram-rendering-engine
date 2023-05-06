@@ -7,6 +7,7 @@ export default class Mecha extends PIXI.Container {
 	private targetX: number;
 	private targetY: number;
 	private durationChangingClothes = 1000;
+	private movable = true;
 
 	constructor(
 		skeletonJsonData,
@@ -15,28 +16,35 @@ export default class Mecha extends PIXI.Container {
 		name,
 		armatureName
 	) {
-			super();
-			this.name = name;
-			const factory = new dragonBones.PixiFactory();
+		super();
+		this.name = name;
+		const factory = new dragonBones.PixiFactory();
 
-			factory.parseDragonBonesData(skeletonJsonData);
+		factory.parseDragonBonesData(skeletonJsonData);
 
-			factory.parseTextureAtlasData(
-					textureJsonData,
-					texture,
-			);
+		factory.parseTextureAtlasData(
+			textureJsonData,
+			texture,
+		);
 
-			this.armature = factory.buildArmatureDisplay(armatureName);
+		this.armature = factory.buildArmatureDisplay(armatureName);
 
-			this.armature.scale.x = 1;
-			this.armature.scale.y = 1;
-			this.armature.animation.play('idle');
-			this.armature.animation.timeScale = 0.2;
-			this.startBlinking();
-			this.addChild(this.armature);
+		this.armature.scale.x = 1;
+		this.armature.scale.y = 1;
+		this.armature.animation.play('idle');
+		this.armature.animation.timeScale = 2;
+		this.startBlinking();
+		this.addChild(this.armature);
 	}
 
 	public changeTexture(texturesToChange: Record<string, string>): void {
+		this.walking = false;
+		this.movable = false;
+		this.targetX = this.x;
+		this.targetY = this.y;
+		this.armature.animation.timeScale = 0.1;
+		this.armature.animation.play('victory');
+
 		let
 			readyToSwapTexture = true,
 			texturesToProcess = Object.values(texturesToChange);
@@ -51,40 +59,45 @@ export default class Mecha extends PIXI.Container {
 			else {
 				texturesToProcess = texturesToProcess.filter(texture => texture !== textureName);
 			}
-		}
+	}
 
-		if (!readyToSwapTexture) {
-			PIXI.loader.onLoad.add((loader, loadedTexture) => {
-				texturesToProcess = texturesToProcess.filter(texture => texture !== loadedTexture.name);
+	if (!readyToSwapTexture) {
+		PIXI.loader.onLoad.add((loader, loadedTexture) => {
+			texturesToProcess = texturesToProcess.filter(texture => texture !== loadedTexture.name);
 
-				if (!texturesToProcess.length) {
-					readyToSwapTexture = true;
-				}
-			});
-		}
-
-		this.armature.animation.timeScale = 0.2;
-		this.armature.animation.play('victory');
-		let swappingTextureTimeout = setTimeout(() => {
-			if (readyToSwapTexture) {
-				this._swapLoadedTextures(texturesToChange);
-				this.armature.animation.timeScale = 2;
-				this.armature.animation.fadeIn('idle', 1);
+			if (!texturesToProcess.length) {
+				readyToSwapTexture = true;
 			}
-			else {
-				// todo - some unknown error
-			}
-			clearTimeout(swappingTextureTimeout);
-		}, this.durationChangingClothes);
+		});
+	}
+
+	let swappingTextureTimeout = setTimeout(() => {
+		if (readyToSwapTexture) {
+			this._swapLoadedTextures(texturesToChange);
+			this.armature.animation.timeScale = 2;
+			this.armature.animation.fadeIn('idle', 1);
+			this.movable = true;
+		}
+		else {
+			// todo - some unknown error
+		}
+		clearTimeout(swappingTextureTimeout);
+	}, this.durationChangingClothes);
 	}
 
 	private _swapLoadedTextures(texturesToChange: Record<string, string>): void {
 		for (const slotName in texturesToChange) {
 			const
-				slot = this.armature.armature.getSlot(slotName),
-				baseTexture = PIXI.loader.resources[texturesToChange[slotName]].texture.baseTexture;
+			slot = this.armature.armature.getSlot(slotName),
+			baseTexture = PIXI.loader.resources[texturesToChange[slotName]].texture.baseTexture;
 
 			slot._renderDisplay._texture.baseTexture = baseTexture;
+		}
+	}
+
+	public goTo(x, y) {
+		if (this.movable) {
+			this.moveTo(x,y);
 		}
 	}
 
@@ -93,22 +106,22 @@ export default class Mecha extends PIXI.Container {
 	}
 
 	public startBlinking(): void {
-			if (this.blinkingThread) {
-					return;
-			}
+		if (this.blinkingThread) {
+			return;
+		}
 
-			this.blinkingThread = window.setTimeout(() => {
-					this.closeEyes();
-					setTimeout(() => {
-							this.stopBlinking();
-							this.startBlinking();
-					}, 100);
-			}, Math.random() * 3000);
+		this.blinkingThread = window.setTimeout(() => {
+			this.closeEyes();
+			setTimeout(() => {
+				this.stopBlinking();
+				this.startBlinking();
+			}, 100);
+		}, Math.random() * 3000);
 	}
 
 	public stopBlinking(): void {
 		if (!this.blinkingThread) {
-				return;
+			return;
 		}
 
 		this.openEyes();
@@ -116,41 +129,43 @@ export default class Mecha extends PIXI.Container {
 	}
 
 	public openEyes(): void {
-		// this.armature.armature.getSlot('eyes').displayIndex = 0;
+	// this.armature.armature.getSlot('eyes').displayIndex = 0;
 	}
 
 	public closeEyes(): void {
-			// this.armature.armature.getSlot('eyes').displayIndex = 1;
+		// this.armature.armature.getSlot('eyes').displayIndex = 1;
 	}
 
 	public moveTo(x: number, y: number): void {
-			this.targetX = x;
-			this.targetY = y;
+		this.targetX = x;
+		this.targetY = y;
 
-			if (!this.walking) {
-					this.armature.animation.play('walk');
-					this.walking = true;
-			}
+		if (!this.walking) {
+			this.armature.animation.play('walk');
+			this.walking = true;
+		}
 	}
 
 	public render(deltaTime: number): void {
-			if (!this.walking) {
-					return;
-			}
+		if (!this.walking) {
+			return;
+		}
 
-			if (Math.abs(this.x - this.targetX) > this.WALK_SPEED) {
-					const direction = this.x < this.targetX ? 1 : -1;
+		if (Math.abs(this.x - this.targetX) > this.WALK_SPEED) {
+			const direction = this.x < this.targetX ? 1 : -1;
 
-					this.x += deltaTime * this.WALK_SPEED * direction;
-			} else if (Math.abs(this.y - this.targetY) > this.WALK_SPEED) {
-					const direction = this.y < this.targetY ? 1 : -1;
+			this.x += deltaTime * this.WALK_SPEED * direction;
+		}
+		else if (Math.abs(this.y - this.targetY) > this.WALK_SPEED) {
+			const direction = this.y < this.targetY ? 1 : -1;
 
-					this.y += deltaTime * this.WALK_SPEED * direction;
-			} else {
-					this.x = this.targetX;
-					this.y = this.targetY;
-					this.armature.animation.play('idle');
-					this.walking = false;
-			}
+			this.y += deltaTime * this.WALK_SPEED * direction;
+		}
+		else {
+			this.x = this.targetX;
+			this.y = this.targetY;
+			this.armature.animation.play('idle');
+			this.walking = false;
+		}
 	}
 }

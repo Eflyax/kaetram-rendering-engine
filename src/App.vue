@@ -8,7 +8,7 @@ const onChangeScarf = () => {
 		'pelvis': 'girl/sprites/head.png'
 	};
 
-	app.changeTexture();
+	app.changeTexture(boneNameToTexture);
 };
 </script>
 
