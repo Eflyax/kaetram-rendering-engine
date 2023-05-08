@@ -27,9 +27,6 @@ export default class Robot extends BaseCreature {
 			texture,
 			armatureName
 			);
-
-		// this._armatureDisplay = this.factory.buildArmatureDisplay('mecha_1502b');
-
 		this._armatureDisplay.x = 0.0;
 		this._armatureDisplay.y = 300;
 		this._armature = this._armatureDisplay.armature;

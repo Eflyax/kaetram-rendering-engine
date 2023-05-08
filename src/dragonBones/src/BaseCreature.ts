@@ -13,11 +13,6 @@ export default abstract class BaseCreature extends PIXI.Container {
 	private readonly _target: PointType = new PIXI.Point()
 	private factory;
 
-	private _skeletonJsonData;
-	private _textureJsonData;
-	private _texture;
-	private _armatureName;
-
 	public constructor(
 		skeletonJsonData,
 		textureJsonData,
@@ -38,6 +33,47 @@ export default abstract class BaseCreature extends PIXI.Container {
 		this._textureJsonData = textureJsonData;
 		this._texture = texture;
 		this._armatureName = armatureName;
+		// this._movable = true;
+	}
 
+	public moveTo(x: number, y: number): void {
+		this.targetX = x;
+		this.targetY = y;
+
+		if (!this.walking) {
+			this._armatureDisplay.animation.play('walk');
+			this.walking = true;
+		}
+	}
+
+	public goTo(x: number, y: number): void {
+		if (this._movable) {
+			console.log('move to');
+			this.moveTo(x,y);
+		}
+	}
+
+
+	public render(deltaTime: number): void {
+		if (!this.walking) {
+			return;
+		}
+
+		if (Math.abs(this.x - this.targetX) > this.WALK_SPEED) {
+			const direction = this.x < this.targetX ? 1 : -1;
+
+			this.x += deltaTime * this.WALK_SPEED * direction;
+		}
+		else if (Math.abs(this.y - this.targetY) > this.WALK_SPEED) {
+			const direction = this.y < this.targetY ? 1 : -1;
+
+			this.y += deltaTime * this.WALK_SPEED * direction;
+		}
+		else {
+			this.x = this.targetX;
+			this.y = this.targetY;
+			this._armatureDisplay.animation.play('idle');
+			this.walking = false;
+		}
 	}
 };

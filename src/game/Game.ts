@@ -33,34 +33,19 @@ export class Game extends PIXI.Application {
 			loader: PIXI.loaders.Loader,
 			resources: dragonBones.Map<PIXI.loaders.Resource>,
 		) => {
-			// this.mecha = new Mecha(
-			// 	resources['resource/a/mecha_1004d_ske.json'].data,
-			// 	resources['resource/a/mecha_1004d_tex.json'].data,
-			// 	resources['resource/a/mecha_1004d_tex.png'].texture,
-			// 	'mecha_1004d'
-			// );
-			// this.mecha.x = 100.0;
-			// this.mecha.y = 250.0;
-			// this.stage.addChild(this.mecha);
-
 			//
-			// // Robot
-			// this.factory.parseDragonBonesData(
-			// 	resources['resource/mecha_1502b/mecha_1502b_ske.json'].data
-			// );
-			// this.factory.parseTextureAtlasData(
-			// 	PIXI.loader.resources['resource/mecha_1502b/mecha_1502b_tex.json'].data,
-			// 	PIXI.loader.resources['resource/mecha_1502b/mecha_1502b_tex.png'].texture
-			// );
-			// this._armatureDisplay = this.factory.buildArmatureDisplay('mecha_1502b');
-
-			// console.log({
-			// 	pram: {
-			// 		'resources[resource/mecha_1502b/mecha_1502b_ske.json].data': resources['resource/mecha_1502b/mecha_1502b_ske.json'].data,
-			// 		'.json].data,': resources['resource/mecha_1502b/mecha_1502b_tex.json'].data,
-			// 		'resources[resource/mecha_1502b/mecha_1502b_tex.png].texture,': resources['resource/mecha_1502b/mecha_1502b_tex.png'].texture,
-			// 		'mecha_1502b': 'mecha_1502b'}})
-
+			// Mecha
+			this.mecha = new Mecha(
+				resources['resource/a/mecha_1004d_ske.json'].data,
+				resources['resource/a/mecha_1004d_tex.json'].data,
+				resources['resource/a/mecha_1004d_tex.png'].texture,
+				'mecha_1004d'
+			);
+			this.mecha.x = 100.0;
+			this.mecha.y = 250.0;
+			this.stage.addChild(this.mecha);
+			//
+			// Robot
 			this.robot = new Robot(
 				resources['resource/mecha_1502b/mecha_1502b_ske.json'].data,
 				resources['resource/mecha_1502b/mecha_1502b_tex.json'].data,
@@ -77,7 +62,6 @@ export class Game extends PIXI.Application {
 			);
 		});
 
-
 		this.stage.interactive = true;
 		this.stage.hitArea = this.screen;
 		this.stage.on('touchstart', this.touchHandler, this);
@@ -92,9 +76,7 @@ export class Game extends PIXI.Application {
 		document.body.appendChild(this.view);
 
 		this.loader.once('complete', () => {
-			if (this.mecha) {
-				this.ticker.add(deltaTime => this.mecha.render(deltaTime));
-			}
+			this.ticker.add(deltaTime => this.mecha.render(deltaTime));
 			this.ticker.add(deltaTime => this.robot.render(deltaTime));
 		});
 
@@ -102,18 +84,17 @@ export class Game extends PIXI.Application {
 	}
 
 	public changeTexture(boneNameToTexture) {
-		if (this.mecha) {
+		// if (this.mecha) {
 			this.mecha.changeTexture(boneNameToTexture)
-		}
+		// }
 	}
 
 	private touchHandler(event: PIXI.interaction.InteractionEvent): void {
 		const x = Math.min(Math.max(event.data.global.x, this.moveArea.left), this.moveArea.right);
 		const y = Math.min(Math.max(event.data.global.y, this.moveArea.top), this.moveArea.bottom);
 
-		if (this.mecha) {
-			this.mecha.goTo(x, y);
-		}
+		this.mecha.goTo(x, y);
+		this.robot.goTo(x, y);
 	}
 }
 

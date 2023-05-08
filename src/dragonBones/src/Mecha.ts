@@ -1,13 +1,10 @@
-export default class Mecha extends PIXI.Container {
+import BaseCreature from './BaseCreature';
+
+export default class Mecha extends BaseCreature {
 
 	private armature: dragonBones.PixiArmatureDisplay;
 	private blinkingThread: number;
-	private walking: boolean = false;
-	private WALK_SPEED: number = 5;
-	private targetX: number;
-	private targetY: number;
 	private durationChangingClothes = 1000;
-	private movable = true;
 
 	constructor(
 		skeletonJsonData,
@@ -15,29 +12,22 @@ export default class Mecha extends PIXI.Container {
 		texture,
 		armatureName
 	) {
-		super();
-		const factory = new dragonBones.PixiFactory();
-
-		factory.parseDragonBonesData(skeletonJsonData);
-
-		factory.parseTextureAtlasData(
+		super(
+			skeletonJsonData,
 			textureJsonData,
 			texture,
+			armatureName
 		);
-
-		this.armature = factory.buildArmatureDisplay(armatureName);
-
-		this.armature.scale.x = 1;
-		this.armature.scale.y = 1;
-		this.armature.animation.play('idle');
-		this.armature.animation.timeScale = 2;
+		this._armatureDisplay.scale.x = 1;
+		this._armatureDisplay.scale.y = 1;
+		this._armatureDisplay.animation.play('idle');
+		this._armatureDisplay.animation.timeScale = 2;
 		this.startBlinking();
-		this.addChild(this.armature);
+		this.addChild(this._armatureDisplay);
 	}
 
 	public changeTexture(texturesToChange: Record<string, string>): void {
 		this.walking = false;
-		this.movable = false;
 		this.targetX = this.x;
 		this.targetY = this.y;
 		this.armature.animation.timeScale = 0.1;
@@ -93,12 +83,6 @@ export default class Mecha extends PIXI.Container {
 		}
 	}
 
-	public goTo(x, y) {
-		if (this.movable) {
-			this.moveTo(x,y);
-		}
-	}
-
 	public getArmature(): dragonBones.PixiArmatureDisplay {
 		return this.armature;
 	}
@@ -134,36 +118,26 @@ export default class Mecha extends PIXI.Container {
 		// this.armature.armature.getSlot('eyes').displayIndex = 1;
 	}
 
-	public moveTo(x: number, y: number): void {
-		this.targetX = x;
-		this.targetY = y;
+	// public render(deltaTime: number): void {
+	// 	if (!this.walking) {
+	// 		return;
+	// 	}
 
-		if (!this.walking) {
-			this.armature.animation.play('walk');
-			this.walking = true;
-		}
-	}
+	// 	if (Math.abs(this.x - this.targetX) > this.WALK_SPEED) {
+	// 		const direction = this.x < this.targetX ? 1 : -1;
 
-	public render(deltaTime: number): void {
-		if (!this.walking) {
-			return;
-		}
+	// 		this.x += deltaTime * this.WALK_SPEED * direction;
+	// 	}
+	// 	else if (Math.abs(this.y - this.targetY) > this.WALK_SPEED) {
+	// 		const direction = this.y < this.targetY ? 1 : -1;
 
-		if (Math.abs(this.x - this.targetX) > this.WALK_SPEED) {
-			const direction = this.x < this.targetX ? 1 : -1;
-
-			this.x += deltaTime * this.WALK_SPEED * direction;
-		}
-		else if (Math.abs(this.y - this.targetY) > this.WALK_SPEED) {
-			const direction = this.y < this.targetY ? 1 : -1;
-
-			this.y += deltaTime * this.WALK_SPEED * direction;
-		}
-		else {
-			this.x = this.targetX;
-			this.y = this.targetY;
-			this.armature.animation.play('idle');
-			this.walking = false;
-		}
-	}
+	// 		this.y += deltaTime * this.WALK_SPEED * direction;
+	// 	}
+	// 	else {
+	// 		this.x = this.targetX;
+	// 		this.y = this.targetY;
+	// 		this._armatureDisplay.animation.play('idle');
+	// 		this.walking = false;
+	// 	}
+	// }
 }
