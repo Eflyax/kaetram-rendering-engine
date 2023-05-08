@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import {App} from './renderer/App';
+import {Game} from './game/Game';
 
-app = new App();
+const game = new Game();
 
 const onChangeScarf = () => {
 	const boneNameToTexture = {
 		'pelvis': 'girl/sprites/head.png'
 	};
+	// 'pelvis': 'hand/dragonbones-export/MechArm_ARM.png'
 
-	app.changeTexture(boneNameToTexture);
+	game.changeTexture(boneNameToTexture);
 };
 </script>
 

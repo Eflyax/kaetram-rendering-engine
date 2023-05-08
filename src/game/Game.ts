@@ -1,6 +1,7 @@
 import Mecha from "../dragonBones/src/Mecha";
+import Robot from "../dragonBones/src/Robot";
 
-export class App extends PIXI.Application {
+export class Game extends PIXI.Application {
 
 	private moveArea: PIXI.Rectangle = new PIXI.Rectangle(0, 0, 900, 500);
 
@@ -14,43 +15,38 @@ export class App extends PIXI.Application {
 			sharedLoader: true,
 		});
 
-		// PIXI.loader.add('girl/sprites/head.png');
-		PIXI.loader.add('resource/mecha_1004d/mecha_1004d_ske.json');
-		PIXI.loader.add('resource/mecha_1004d/mecha_1004d_tex.json');
-		PIXI.loader.add('resource/mecha_1004d/mecha_1004d_tex.png');
 		// mecha - reexported
 		PIXI.loader.add('resource/a/mecha_1004d_ske.json');
 		PIXI.loader.add('resource/a/mecha_1004d_tex.json');
 		PIXI.loader.add('resource/a/mecha_1004d_tex.png');
 
+		//
+		PIXI.loader.add('resource/mecha_1502b/mecha_1502b_ske.json');
+		PIXI.loader.add('resource/mecha_1502b/mecha_1502b_tex.json');
+		PIXI.loader.add('resource/mecha_1502b/mecha_1502b_tex.png');
+
 		PIXI.loader.once('complete', (
 			loader: PIXI.loaders.Loader,
 			resources: dragonBones.Map<PIXI.loaders.Resource>,
 		) => {
-		// this.mechaDemo = new Mecha(
-		// 	resources['resource/mecha_1004d/mecha_1004d_ske.json'].data,
-		// 	resources['resource/mecha_1004d/mecha_1004d_tex.json'].data,
-		// 	resources['resource/mecha_1004d/mecha_1004d_tex.png'].texture,
-		// 	'DEMO',
-		// 	'mecha_1004d'
-		// );
-		// this.mechaDemo.x = 500.0;
-		// this.mechaDemo.y = 250.0;
-		// this.stage.addChild(this.mechaDemo);
-		//
-		//
-		//
-		this.mecha = new Mecha(
-			resources['resource/a/mecha_1004d_ske.json'].data,
-			resources['resource/a/mecha_1004d_tex.json'].data,
-			resources['resource/a/mecha_1004d_tex.png'].texture,
-			'REEXP',
-			'mecha_1004d'
-		);
-		this.mecha.x = 100.0;
-		this.mecha.y = 250.0;
-		this.stage.addChild(this.mecha);
+			this.mecha = new Mecha(
+				resources['resource/a/mecha_1004d_ske.json'].data,
+				resources['resource/a/mecha_1004d_tex.json'].data,
+				resources['resource/a/mecha_1004d_tex.png'].texture,
+				'REEXP',
+				'mecha_1004d'
+			);
+			this.mecha.x = 100.0;
+			this.mecha.y = 250.0;
+			this.stage.addChild(this.mecha);
+			//
+			// Robot
+			this.robot = new Robot();
+			this.robot.x = 300;
+			this.robot.y = 300;
+			this.stage.addChild(this.robot);
 		});
+
 
 		this.stage.interactive = true;
 		this.stage.hitArea = this.screen;
