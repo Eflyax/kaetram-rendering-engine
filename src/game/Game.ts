@@ -1,14 +1,18 @@
 import Mecha from "../dragonBones/src/Mecha";
 import Robot from "../dragonBones/src/Robot";
 
+const
+	CANVAS_WIDTH = 1200,
+	CANVAS_HEIGHT = 1200;
+
 export class Game extends PIXI.Application {
 
-	private moveArea: PIXI.Rectangle = new PIXI.Rectangle(0, 0, 900, 500);
+	private moveArea: PIXI.Rectangle = new PIXI.Rectangle(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
 	constructor() {
 		super({
-			width: 1200,
-			height: 600,
+			width: CANVAS_WIDTH,
+			height: CANVAS_HEIGHT,
 			backgroundColor: 0x000000,
 			autoStart: true,
 			sharedTicker: true,
@@ -45,6 +49,11 @@ export class Game extends PIXI.Application {
 			this.robot.x = 300;
 			this.robot.y = 300;
 			this.stage.addChild(this.robot);
+			this.stage.on(
+				'mousemove',
+				(event: PIXI.interaction.InteractionEvent) => this.robot.mouseMove(event),
+				this
+			);
 		});
 
 
@@ -55,14 +64,15 @@ export class Game extends PIXI.Application {
 		this.stage.on('mousedown', this.touchHandler, this);
 
 		let drag: boolean = false;
-		this.stage.on('mousedown', () => drag = true, this);
-		this.stage.on('mouseup', () => drag = false, this);
+		// this.stage.on('mousedown', () => drag = true, this);
+		// this.stage.on('mouseup', () => drag = false, this);
 		this.stage.on('mousemove', (e: PIXI.interaction.InteractionEvent) => drag && this.touchHandler(e), this);
 
 		document.body.appendChild(this.view);
 
 		this.loader.once('complete', () => {
 			this.ticker.add(deltaTime => this.mecha.render(deltaTime));
+			this.ticker.add(deltaTime => this.robot.render(deltaTime));
 		});
 
 		this.loader.load();

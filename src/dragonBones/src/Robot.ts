@@ -50,8 +50,6 @@ export default class Robot extends PIXI.Container {
 
 		this._armatureDisplay = factory.buildArmatureDisplay('mecha_1502b');
 
-		console.log(this._armatureDisplay);
-
 		this._armatureDisplay.x = 0.0;
 		this._armatureDisplay.y = 300;
 		this._armature = this._armatureDisplay.armature;
@@ -69,6 +67,18 @@ export default class Robot extends PIXI.Container {
 		this.addChild(this._armatureDisplay);
 		this._updateAnimation();
 	}
+
+	public mouseMove(event: PIXI.interaction.InteractionEvent): void {
+		this.aim(event.data.global.x - this.x, event.data.global.y - this.y);
+
+		if (event.type === 'touchstart' || event.type === 'mousedown') {
+			this.attack(true);
+		}
+		else if (event.type === 'touchend' || event.type === 'mouseup') {
+			this.attack(false);
+		}
+}
+
 
 	public move(dir: number): void {
 		if (this._moveDir === dir) {
@@ -145,7 +155,7 @@ export default class Robot extends PIXI.Container {
 		this._target.y = y;
 	}
 
-	public update(): void {
+	public render(): void {
 		this._updatePosition();
 		this._updateAim();
 		this._updateAttack();
