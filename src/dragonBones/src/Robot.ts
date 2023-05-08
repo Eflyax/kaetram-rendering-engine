@@ -88,13 +88,6 @@ export default class Robot extends BaseCreature {
 		this._target.y = y;
 	}
 
-	public render(): void {
-		// console.log('render_ robot');
-		this._updatePosition();
-		this._updateAim();
-		this._updateAttack();
-	}
-
 	private _animationEventHandler(event: EventType): void {
 		switch (event.type) {
 			case dragonBones.EventObject.FADE_IN_COMPLETE:

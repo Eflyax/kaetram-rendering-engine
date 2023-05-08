@@ -35,17 +35,21 @@ export default abstract class BaseCreature extends PIXI.Container {
 		this._textureJsonData = textureJsonData;
 		this._texture = texture;
 		this._armatureName = armatureName;
-		this._movable = true;
+		this._movable = false;
 	}
 
 	public moveTo(x: number, y: number): void {
 		this.targetX = x;
 		this.targetY = y;
 
-		if (!this.walking) {
+		if (!this.walking && this._movable) {
 			this._armatureDisplay.animation.play('walk');
 			this.walking = true;
 		}
+	}
+
+	public setMoveable(state: boolean): void {
+		this._movable = state;
 	}
 
 	public goTo(x: number, y: number): void {
@@ -56,6 +60,8 @@ export default abstract class BaseCreature extends PIXI.Container {
 
 
 	protected render(deltaTime: number): void {
+		this._updateAim();
+
 		if (!this.walking) {
 			return;
 		}
