@@ -13,11 +13,9 @@ export default class Mecha extends PIXI.Container {
 		skeletonJsonData,
 		textureJsonData,
 		texture,
-		name,
 		armatureName
 	) {
 		super();
-		this.name = name;
 		const factory = new dragonBones.PixiFactory();
 
 		factory.parseDragonBonesData(skeletonJsonData);

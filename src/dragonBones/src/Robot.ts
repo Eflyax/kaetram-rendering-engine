@@ -1,54 +1,34 @@
-export default class Robot extends PIXI.Container {
+import BaseCreature from './BaseCreature';
 
-	private static readonly JUMP_SPEED: number = 20;
-	private static readonly NORMALIZE_MOVE_SPEED: number = 3.6;
+export default class Robot extends BaseCreature {
+
 	private static readonly MAX_MOVE_SPEED_FRONT: number = Robot.NORMALIZE_MOVE_SPEED * 1.4;
 	private static readonly MAX_MOVE_SPEED_BACK: number = Robot.NORMALIZE_MOVE_SPEED * 1.0;
+
 	private static readonly NORMAL_ANIMATION_GROUP: string = "normal";
 	private static readonly AIM_ANIMATION_GROUP: string = "aim";
 	private static readonly ATTACK_ANIMATION_GROUP: string = "attack";
-	private static readonly WEAPON_L_LIST: Array<string> = ["weapon_1502b_l", "weapon_1005", "weapon_1005b", "weapon_1005c", "weapon_1005d", "weapon_1005e"];
-	private static readonly WEAPON_R_LIST: Array<string> = ["weapon_1502b_r", "weapon_1005", "weapon_1005b", "weapon_1005c", "weapon_1005d"];
-	private static readonly SKINS: Array<string> = ["mecha_1502b", "skin_a", "skin_b", "skin_c"];
 
-	private _isJumpingA: boolean = false;
-	private _isSquating: boolean = false;
 	private _isAttackingA: boolean = false;
 	private _isAttackingB: boolean = false;
-	private _weaponRIndex: number = 0;
-	private _weaponLIndex: number = 0;
-	private _skinIndex: number = 0;
-	private _faceDir: number = 1;
-	private _aimDir: number = 0;
-	private _moveDir: number = 0;
-	private _aimRadian: number = 0.0;
-	private _speedX: number = 0.0;
-	private _speedY: number = 0.0;
-	private _armature: dragonBones.Armature;
-	private _armatureDisplay: ArmatureDisplayType;
-	private _weaponL: dragonBones.Armature;
-	private _weaponR: dragonBones.Armature;
 	private _aimState: dragonBones.AnimationState | null = null;
 	private _walkState: dragonBones.AnimationState | null = null;
-	private _attackState: dragonBones.AnimationState | null = null;
-	private readonly _target: PointType = new PIXI.Point();
-	private readonly _helpPoint: PointType = new PIXI.Point();
+	private _attackState: dragonBones.AnimationState | null = null;;
 
-	public constructor() {
-		super();
+	public constructor(
+		skeletonJsonData,
+		textureJsonData,
+		texture,
+		armatureName
+		) {
+		super(
+			skeletonJsonData,
+			textureJsonData,
+			texture,
+			armatureName
+			);
 
-		const factory = new dragonBones.PixiFactory();
-
-		factory.parseDragonBonesData(
-			PIXI.loader.resources['resource/mecha_1502b/mecha_1502b_ske.json'].data
-		);
-
-		factory.parseTextureAtlasData(
-			PIXI.loader.resources['resource/mecha_1502b/mecha_1502b_tex.json'].data,
-			PIXI.loader.resources['resource/mecha_1502b/mecha_1502b_tex.png'].texture
-		);
-
-		this._armatureDisplay = factory.buildArmatureDisplay('mecha_1502b');
+		// this._armatureDisplay = this.factory.buildArmatureDisplay('mecha_1502b');
 
 		this._armatureDisplay.x = 0.0;
 		this._armatureDisplay.y = 300;
@@ -57,13 +37,9 @@ export default class Robot extends PIXI.Container {
 		this._armatureDisplay.on(dragonBones.EventObject.FADE_OUT_COMPLETE, this._animationEventHandler, this);
 		this._armatureDisplay.on(dragonBones.EventObject.COMPLETE, this._animationEventHandler, this);
 
-		// Get weapon childArmature.
 		this._weaponL = this._armature.getSlot("weapon_l").childArmature;
 		this._weaponR = this._armature.getSlot("weapon_r").childArmature;
-		this._weaponL.display.on(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
-		this._weaponR.display.on(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
 
-		// Game.instance.addChild(this._armatureDisplay);
 		this.addChild(this._armatureDisplay);
 		this._updateAnimation();
 	}
@@ -77,8 +53,7 @@ export default class Robot extends PIXI.Container {
 		else if (event.type === 'touchend' || event.type === 'mouseup') {
 			this.attack(false);
 		}
-}
-
+	}
 
 	public move(dir: number): void {
 		if (this._moveDir === dir) {
@@ -103,51 +78,12 @@ export default class Robot extends PIXI.Container {
 		this._walkState = null;
 	}
 
-	public squat(isSquating: boolean): void {
-		if (this._isSquating === isSquating) {
-			return;
-		}
-
-		this._isSquating = isSquating;
-		this._updateAnimation();
-	}
-
 	public attack(isAttacking: boolean): void {
 		if (this._isAttackingA === isAttacking) {
 			return;
 		}
 
 		this._isAttackingA = isAttacking;
-	}
-
-	public switchWeaponL(): void {
-		this._weaponL.display.off(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
-
-		this._weaponLIndex++;
-		this._weaponLIndex %= Robot.WEAPON_L_LIST.length;
-		const weaponName = Robot.WEAPON_L_LIST[this._weaponLIndex];
-		this._weaponL = dragonBones.PixiFactory.factory.buildArmature(weaponName);
-		this._armature.getSlot("weapon_l").childArmature = this._weaponL;
-		this._weaponL.display.off(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
-	}
-
-	public switchWeaponR(): void {
-		this._weaponR.display.off(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
-
-		this._weaponRIndex++;
-		this._weaponRIndex %= Robot.WEAPON_R_LIST.length;
-		const weaponName = Robot.WEAPON_R_LIST[this._weaponRIndex];
-		this._weaponR = dragonBones.PixiFactory.factory.buildArmature(weaponName);
-		this._armature.getSlot("weapon_r").childArmature = this._weaponR;
-		this._weaponR.display.on(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
-	}
-
-	public switchSkin(): void {
-		this._skinIndex++;
-		this._skinIndex %= Robot.SKINS.length;
-		const skinName = Robot.SKINS[this._skinIndex];
-		const skinData = dragonBones.PixiFactory.factory.getArmatureData(skinName).defaultSkin;
-		dragonBones.PixiFactory.factory.replaceSkin(this._armature, skinData, false, ["weapon_l", "weapon_r"]);
 	}
 
 	public aim(x: number, y: number): void {
@@ -199,36 +135,8 @@ export default class Robot extends PIXI.Container {
 		}
 	}
 
-	private _frameEventHandler(event: EventType): void {
-		if (event.name === "fire") {
-			this._helpPoint.x = event.bone.global.x;
-			this._helpPoint.y = event.bone.global.y;
-			(event.armature.display as ArmatureDisplayType).toGlobal(this._helpPoint, this._helpPoint);
-			this._helpPoint.x -= Game.instance.x;
-			this._helpPoint.y -= Game.instance.y;
-			this._fire(this._helpPoint);
-		}
-	}
-
-	private _fire(firePoint: PointType): void {
-		const radian = this._faceDir < 0 ? Math.PI - this._aimRadian : this._aimRadian;
-		// const bullet = new Bullet("bullet_01", "fire_effect_01", radian + Math.random() * 0.02 - 0.01, 40, firePoint);
-		// Game.instance.addBullet(bullet);
-	}
-
 	private _updateAnimation(): void {
 		if (this._isJumpingA) {
-			return;
-		}
-
-		if (this._isSquating) {
-			this._speedX = 0;
-			this._armature.animation.fadeIn(
-				"squat", -1.0, -1,
-				0, Robot.NORMAL_ANIMATION_GROUP
-			).resetToPose = false;
-
-			this._walkState = null;
 			return;
 		}
 
@@ -332,7 +240,6 @@ export default class Robot extends PIXI.Container {
 		if (this._aimState === null || this._aimDir !== aimDir) {
 			this._aimDir = aimDir;
 
-			// Animation mixing.
 			if (this._aimDir >= 0) {
 				this._aimState = this._armature.animation.fadeIn(
 					"aim_up", -1.0, -1,
