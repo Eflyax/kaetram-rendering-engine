@@ -118,26 +118,27 @@ export default class Mecha extends BaseCreature {
 		// this.armature.armature.getSlot('eyes').displayIndex = 1;
 	}
 
-	// public render(deltaTime: number): void {
-	// 	if (!this.walking) {
-	// 		return;
-	// 	}
+	public render(deltaTime: number): void {
+		super.render(deltaTime);
+		if (!this.walking) {
+			return;
+		}
 
-	// 	if (Math.abs(this.x - this.targetX) > this.WALK_SPEED) {
-	// 		const direction = this.x < this.targetX ? 1 : -1;
+		// if (Math.abs(this.x - this.targetX) > this.WALK_SPEED) {
+		// 	const direction = this.x < this.targetX ? 1 : -1;
 
-	// 		this.x += deltaTime * this.WALK_SPEED * direction;
-	// 	}
-	// 	else if (Math.abs(this.y - this.targetY) > this.WALK_SPEED) {
-	// 		const direction = this.y < this.targetY ? 1 : -1;
+		// 	this.x += deltaTime * this.WALK_SPEED * direction;
+		// }
+		// else if (Math.abs(this.y - this.targetY) > this.WALK_SPEED) {
+		// 	const direction = this.y < this.targetY ? 1 : -1;
 
-	// 		this.y += deltaTime * this.WALK_SPEED * direction;
-	// 	}
-	// 	else {
-	// 		this.x = this.targetX;
-	// 		this.y = this.targetY;
-	// 		this._armatureDisplay.animation.play('idle');
-	// 		this.walking = false;
-	// 	}
-	// }
+		// 	this.y += deltaTime * this.WALK_SPEED * direction;
+		// }
+		// else {
+		// 	this.x = this.targetX;
+		// 	this.y = this.targetY;
+		// 	this._armatureDisplay.animation.play('idle');
+		// 	this.walking = false;
+		// }
+	}
 }

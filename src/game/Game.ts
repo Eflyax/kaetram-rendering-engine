@@ -94,7 +94,7 @@ export class Game extends PIXI.Application {
 		const y = Math.min(Math.max(event.data.global.y, this.moveArea.top), this.moveArea.bottom);
 
 		this.mecha.goTo(x, y);
-		this.robot.goTo(x, y);
+		// this.robot.goTo(x, y);
 	}
 }
 

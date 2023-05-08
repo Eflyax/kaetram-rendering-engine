@@ -89,6 +89,7 @@ export default class Robot extends BaseCreature {
 	}
 
 	public render(): void {
+		// console.log('render_ robot');
 		this._updatePosition();
 		this._updateAim();
 		this._updateAttack();

@@ -13,6 +13,8 @@ export default abstract class BaseCreature extends PIXI.Container {
 	private readonly _target: PointType = new PIXI.Point()
 	private factory;
 
+	WALK_SPEED = 2;
+
 	public constructor(
 		skeletonJsonData,
 		textureJsonData,
@@ -33,7 +35,7 @@ export default abstract class BaseCreature extends PIXI.Container {
 		this._textureJsonData = textureJsonData;
 		this._texture = texture;
 		this._armatureName = armatureName;
-		// this._movable = true;
+		this._movable = true;
 	}
 
 	public moveTo(x: number, y: number): void {
@@ -48,16 +50,16 @@ export default abstract class BaseCreature extends PIXI.Container {
 
 	public goTo(x: number, y: number): void {
 		if (this._movable) {
-			console.log('move to');
 			this.moveTo(x,y);
 		}
 	}
 
 
-	public render(deltaTime: number): void {
+	protected render(deltaTime: number): void {
 		if (!this.walking) {
 			return;
 		}
+
 
 		if (Math.abs(this.x - this.targetX) > this.WALK_SPEED) {
 			const direction = this.x < this.targetX ? 1 : -1;
