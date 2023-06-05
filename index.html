@@ -6,26 +6,105 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Demo</title>
 		<link rel="stylesheet" href="/style.css" as="style">
-		<!--  -->
-		<!--  -->
-		<!--  -->
 
 		<script src="http://localhost:5004/public/sdk/aml-sdk.js" type="module"></script>
 
 		<script>
-			window.addEventListener('load', async() => {
-				const
-					buttonOpenQuestionnaire = document.getElementById('open-questionnaire');
+			const
+				NAMESPACE = 'aml-test-demo',
+				USER_ID = 42;
 
-				buttonOpenQuestionnaire.onclick = function(e) {
+			window.addEventListener('load', async() => {
+				document.getElementById('open-questionnaire').onclick = function(e) {
 					window.amlSdk.displayQuestionnaire('aml-test:2075291943558977', '--last--', {});
+				};
+
+				document.getElementById('create-client').onclick = async function(e) {
+					const
+						clientPayload = {
+							id: USER_ID,
+							ns: NAMESPACE,
+							party: {
+								type: 'person',
+								person: {
+									ownName: 'Garry',
+									familyName: 'Gergich',
+									title: '',
+									nationality: 'AFG',
+									nin: '001000110010',
+									sex: 'M',
+									dateOfBirth: '1987-12-23T00:00:00.000Z',
+									placeOfBirth: 'Pawnee',
+									contactMethods: [],
+									idDocument: {
+										type: 'fo_op',
+										num: '001001110010',
+										issuedBy: 'County of Pawnee',
+										validSince: '2011-01-01T00:00:00.000Z',
+										validUntil: '2031-01-01T00:00:00.000Z'
+									},
+									contact: {
+										permanentAddress: {
+											street: 'R. Bough 666',
+											city: 'Pawnee',
+											postalCode: '77',
+											country: 'USA'
+										}
+									},
+								}
+							}
+						};
+
+					try {
+						const response = await window.amlSdk.api.createClient(clientPayload);
+						console.log({response});
+					}
+					catch(err) {
+						console.log(err);
+					}
+				}
+
+				document.getElementById('create-control-procedure').onclick = async function(e) {
+					try {
+						const response = window.amlSdk.api.createControlProcedure({
+							ns: NAMESPACE,
+							id: USER_ID,
+							contracts: [{
+								contractId: 1,
+								registeredAt: '2022-12-20',
+								name: 'Testovací procedura',
+								clientRole: 'customer',
+								arrangementMethod: 'in_person',
+								contractType: 'one_off',
+								contractKind: 'finalized',
+								implementor: 'Bob',
+							}],
+							procedure: {
+								firstValidAt: '2022-12-20',
+								yearlyFinancialVolume: 333,
+								signing: {
+									representedByAnother: false,
+									clientAge: 30,
+								},
+								preScoring: {
+									addressAtLabourOffice: false,
+									foreignPerson: false,
+									isPep: false,
+									isSanctioned: false,
+									riskyBusiness: false,
+									identifiedInPerson: true,
+								},
+							},
+						})
+
+						console.log({response});
+					}
+					catch(e) {
+						console.log(e);
+					}
 				}
 			});
 		</script>
-
-		<!--  -->
-		<!--  -->
-		<!--  -->
 	</head>
 	<body>
 		<div id="wrapper">
@@ -33,6 +112,14 @@
 
 			<button id="open-questionnaire">
 				Otevřít dotazník
+			</button>
+
+			<button id="create-client">
+				Založ klienta
+			</button>
+
+			<button id="create-control-procedure">
+				Vytvoř kontrolní proceduru
 			</button>
 
 			<p class="intro">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
