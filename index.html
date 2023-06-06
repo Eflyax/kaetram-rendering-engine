@@ -3,8 +3,13 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- Import SDK -->
 		<script src="https://fc-aml-dev.addaris.toys/sdk/aml-sdk.js" type="module"></script>
+
 		<script>
+			// Použití SDK v aplikaci:
+
 			// výpis API odpovědi do stránky
 			function printResponse(response) {
 				if (response && response.data) {
@@ -22,7 +27,6 @@
 
 			// DOM a všechny skripty jsou načtené...
 			window.addEventListener('load', async() => {
-
 				// Navěšení handleru na tlačítko pro možnost otevřít AML dotazník
 				document.getElementById('open-questionnaire').onclick = function(e) {
 					window.amlSdk.displayQuestionnaire(`${NAMESPACE}:${USER_ID}`, '--last--', {});
