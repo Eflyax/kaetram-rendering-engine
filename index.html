@@ -1,28 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 	<head>
-		<meta charset="UTF-8" />
-		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Demo</title>
-		<link rel="stylesheet" href="/style.css" as="style">
-
-		<script src="http://localhost:5004/public/sdk/aml-sdk.js" type="module"></script>
-
+		<script src="https://fc-aml-dev.addaris.toys/sdk/aml-sdk.js" type="module"></script>
 		<script>
-			const
-				NAMESPACE = 'aml-test-demo',
-				USER_ID = 42;
+			// výpis API odpovědi do stránky
+			function printResponse(response) {
+				if (response && response.data) {
+					console.log({response});
+					document.getElementById('result-object').innerHTML = JSON.stringify(response.data, null, 2 );
+				}
+				else {
+					document.getElementById('result-object').innerHTML = '...';
+				}
+			}
 
+			const
+				NAMESPACE = 'aml-test', // libovolný textový řetězec
+				USER_ID = 8703298510062447; // ID uživatele
+
+			// DOM a všechny skripty jsou načtené...
 			window.addEventListener('load', async() => {
+
+				// Navěšení handleru na tlačítko pro možnost otevřít AML dotazník
 				document.getElementById('open-questionnaire').onclick = function(e) {
-					window.amlSdk.displayQuestionnaire('aml-test:2075291943558977', '--last--', {});
+					window.amlSdk.displayQuestionnaire(`${NAMESPACE}:${USER_ID}`, '--last--', {});
 				};
 
+				// Handler pro založení klienta
 				document.getElementById('create-client').onclick = async function(e) {
+					printResponse();
+
 					const
 						clientPayload = {
-							id: USER_ID,
+							id:  new Date().getMilliseconds(), // náhodné ID
 							ns: NAMESPACE,
 							party: {
 								type: 'person',
@@ -57,7 +69,8 @@
 
 					try {
 						const response = await window.amlSdk.api.createClient(clientPayload);
-						console.log({response});
+
+						printResponse(response);
 					}
 					catch(err) {
 						console.log(err);
@@ -65,19 +78,21 @@
 				}
 
 				document.getElementById('create-control-procedure').onclick = async function(e) {
+					printResponse();
+
 					try {
-						const response = window.amlSdk.api.createControlProcedure({
+						const response = await window.amlSdk.api.createControlProcedure({
 							ns: NAMESPACE,
 							id: USER_ID,
 							contracts: [{
 								contractId: 1,
 								registeredAt: '2022-12-20',
-								name: 'Testovací procedura',
+								name: 'Testovací procedura #' + new Date().getMilliseconds(),
 								clientRole: 'customer',
 								arrangementMethod: 'in_person',
 								contractType: 'one_off',
 								contractKind: 'finalized',
-								implementor: 'Bob',
+								implementor: 'George Stevenson',
 							}],
 							procedure: {
 								firstValidAt: '2022-12-20',
@@ -97,7 +112,7 @@
 							},
 						})
 
-						console.log({response});
+						printResponse(response);
 					}
 					catch(e) {
 						console.log(e);
@@ -105,51 +120,35 @@
 				}
 
 				document.getElementById('read-contract-questionnaire').onclick = async function(e) {
+					printResponse();
+
 					try {
-						const response = window.amlSdk.api.readContractQuestionnaire({
+						const response = await window.amlSdk.api.readContractQuestionnaire({
 							ns: NAMESPACE,
 							id: USER_ID,
 							contractId: '--last--'
 						})
 
-						console.log({response});
+						printResponse(response)
 					}
 					catch(e) {
 						console.log(e);
 					}
 				}
-
-				console.log(window.amlSdk.api)
 			});
-
 		</script>
 	</head>
 	<body>
-		<div id="wrapper">
-			<h1>Demo aplikace</h1>
+		<h1>Ukázka SDK AML implementace</h1>
+		<button id="open-questionnaire">Otevřít dotazník</button>
+		<button id="create-client">Založ klienta</button>
+		<button id="create-control-procedure">Vytvoř kontrolní proceduru</button>
+		<button id="read-contract-questionnaire">Načti dotazník smlouvy</button>
 
-			<button id="open-questionnaire">
-				Otevřít dotazník
-			</button>
+		<div style="border: 1px solid black; margin: 20px;">
+			<h3>Výsledek:</h3>
 
-			<button id="create-client">
-				Založ klienta
-			</button>
-
-			<button id="create-control-procedure">
-				Vytvoř kontrolní proceduru
-			</button>
-
-			<button id="read-contract-questionnaire">
-				Načti dotazník smlouvy
-			</button>
-
-			<p class="intro">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-				The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-				Where can I get some?
-				There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
-			</p>
-			<div id="app"></div>
+			<pre id="result-object">...</pre>
 		</div>
 	</body>
 </html>
